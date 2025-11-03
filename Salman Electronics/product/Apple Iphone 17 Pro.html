@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iphone 17 Pro | Salman Electronics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="../SE Logo/SE favicon image.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="shortcut icon" href="../SE Logo/SE favicon image.png" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+    <link rel="shortcut icon" href="../SE Logo/SE favicon image.png" type="image/x-icon">
+    
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <!-- Load Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Configure Tailwind for custom styles and Inter font -->
+
+  
+       <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome Icons -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Configure Tailwind for custom styles and Inter font -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</script>
+    <!-- Load Lucide Icons for high-quality SVG icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  // This function call is CRITICAL. It tells Lucide to find all 
+  // elements with the 'data-lucide' attribute and draw the icon.
+  lucide.createIcons();
+</script>
+
+<script>
+
+    tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'se-orange': '#ff5e14', /* Your custom orange color */
+                        'se-green': '#28a745', /* Example green for discounts */
+                        'se-light-gray': '#f2f2f2', /* Light background for cards */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-database.js"></script>
+
+<style>
+    *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- GENERAL & PRODUCT CARD STYLES --- */
+.mainBackground {
+    background-color: rgba(7, 7, 7, 0.11);
+}
+.sliderBlock_items__showing {
+    opacity: 1 !important;
+    z-index: 10;
+}
+.img-zoom-container {
+    position: relative;
+    cursor: zoom-in;
+}
+.img-zoom-lens {
+    position: absolute;
+    border: 3px solid #ff4757;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    overflow: hidden;
+    opacity: 0;
+    z-index: 60;
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    transform: translate(-50%, -50%);
+}
+.block_rating__stars > input { display: none; }
+.block_rating__stars > label { color: #c9c9c9; float: right; }
+.block_rating__stars > label:before {
+    margin: 5px;
+    font-size: 15px;
+    font-family: "FontAwesome";
+    display: inline-block;
+    content: "\f005";
+    cursor: pointer;
+}
+.block_rating__stars > input:checked ~ label,
+.block_rating__stars:not(:checked) > label:hover,
+.block_rating__stars:not(:checked) > label:hover ~ label {
+    color: #fccf47;
+    cursor: pointer;
+}
+.radio_button { display: none; }
+.radio_button:checked + .color-swatch {
+    width: 32px; 
+    height: 32px; 
+    box-shadow: 0 0 5px 3px rgba(83, 109, 254, 0.5);
+    border: 2px solid #fff;
+}
+.radio_button:checked + .storage-swatch {
+    background-color: #ff5e14;
+    color: #fff;
+    border-color: #ff5e14; 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+.radio_button:checked + .storage-swatch:hover {
+    color: black;
+}
+.block_descriptionCharacteristic {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+}
+.block_descriptionCharacteristic__active {
+    opacity: 1;
+}
+
+/* --- HEADER / NAVBAR --- */
+.qa-header {
+    height: 60px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.qa-logo {
+    max-width: 250px;
+    padding: 0 10px;
+    overflow: hidden;
+}
+.qa-logo a {
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+.qa-logo a img {
+    max-width: 100%;
+    max-height: 60px;
+}
+.qa-nav {
+    display: flex;
+    flex: 1;
+    padding: 0 10px;
+}
+.qa-nav__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.qa-nav__item a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    text-transform: uppercase;
+    display: block;
+    height: 60px;
+    line-height: 60px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+.qa-nav__item a:hover {
+    color: #ffffff;
+    background-color: #ff5e14;
+    border-radius: 15px;
+}
+.qa-nav__close {
+    display: none;
+    text-align: right;
+    padding: 10px;
+}
+.qa-nav__close span {
+    font-size: 40px;
+    display: inline-block;
+    border: 1px solid #cccccc;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.qa-nav__toggle {
+    padding: 18px 8px;
+    width: 50px;
+    height: 60px;
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: white;
+}
+.qa-nav__toggle i {
+    background-color: #ff5e14;
+    height: 4px;
+    display: block;
+}
+@media only screen and (max-width: 650px) {
+    .qa-header { justify-content: space-between; }
+    .qa-logo { flex: 1; }
+    .qa-nav { flex: 0; }
+    .qa-nav__list {
+        flex-wrap: nowrap;
+        position: fixed;
+        left: 100%; /* Off-screen by default */
+        top: 0;
+        flex-direction: column;
+        background: #ffffff;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        transition: left .3s;
+        text-align: center;
+        z-index: 100;
+    }
+    .qa-nav__item a {
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        height: auto;
+        line-height: normal;
+        color: black;
+    }
+    .qa-nav__close { display: block; }
+    .qa-nav__toggle { display: flex; }
+    .qa-nav__list--show { left: 0; }
+}
+
+/* =================================================================
+  secondary HEADER AND NAVIGATION STYLES (qa- prefix)
+   ================================================================= */
+
+/* Set default font to Inter, as required */
+body {
+    /* Kept existing styles, but note body should not be redefined here if already done globally */
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+}
+
+/* Custom animation for the cart counter pulse (CSS kept) */
+@keyframes ping-once {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.animate-ping-once {
+    animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+#utility-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+    
+    /* ADDED FOR LAYOUT */
+    display: flex; 
+    justify-content: flex-end; /* Pushes content to the right */
+    align-items: center; /* Vertically centers items */
+    padding: 10px 20px; /* Add some padding to prevent cutting off on the edges */
+}
+
+.login-button {
+    background-color: white;
+    color: black;
+    /* Use fixed padding for content-based size */
+    padding: 8px 15px; 
+    width: auto; /* Allow button to size itself */
+    flex-shrink: 0; /* Prevents button from getting too small */
+    /* Add a small margin to separate it from other icons/buttons */
+    margin-right: 10px; 
+}
+
+.login-button:hover{
+    background-color: #ff5e14;
+    color: white;
+}
+
+.signup-button {
+    background-color: #ff5e14;
+    color: white;
+    /* Use fixed padding for content-based size */
+    padding: 8px 15px; 
+    width: auto; /* Allow button to size itself */
+    flex-shrink: 0; /* Prevents button from getting too small */
+    margin-left: 10px; /* Space from Login button */
+    /* Use padding on the utility bar instead of a huge margin-right */
+    margin-right: 0; 
+}
+
+.signup-button:hover{
+    background-color: white;
+    color: black;
+}
+
+.sweet-alert-top-zindex {
+    z-index: 100000 !important; 
+}
+
+
+@media (max-width: 768px) {
+  #utility-bar {
+    display: flex;
+    justify-content: space-around !important;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .cart-section {
+    order: 1; /* Cart on left */
+  }
+
+  .auth-buttons {
+    order: 2; /* Buttons on right */
+    display: flex;
+    gap: 8px;
+  }
+}
+
+/* 🎨 General Table Styling */
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 🛒 Responsive Cart Item Styling */
+.product-row {
+  position: relative; /* allow the X button to position inside */
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.product-img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-details-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  word-wrap: break-word;
+}
+
+.product-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.2;
+}
+
+.product-price-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #007bff;
+  white-space: nowrap;
+}
+
+.product-price {
+  font-size: 1.3em;
+  color: #007bff;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* ❌ Delete Button — always top-right of product card */
+.single-delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.single-delete-button:hover {
+  color: #ff5e14;
+  transform: scale(1.1);
+}
+
+.scroll-anim {
+  scrollbar-width: thin;
+  scrollbar-color: #ff5e14 #f1f1f1;
+  max-height: 600px;
+}
+
+/* 🧁 Force SweetAlert2 popup to appear above all UI layers */
+.swal2-container {
+  z-index: 999999 !important;
+}
+
+
+/* 📱 Responsive Layout Adjustments */
+@media only screen and (max-width: 768px) {
+  .product-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .product-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .single-delete-button {
+    top: 6px;
+    right: 6px;
+    font-size: 20px;
+  }
+
+    .qa-main-content__title { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  .product-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .product-details-container {
+    align-items: center;
+  }
+
+  .product-title {
+    font-size: 14px;
+  }
+
+  .product-price-label {
+    font-size: 14px;
+  }
+
+  .single-delete-button {
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+  }
+}
+
+
+
+
+/* --- MAIN SEARCH SECTION --- */
+.qa-main-search{
+    background-color: rgba(7, 7, 7, 0.11);
+    margin-top: 15px;
+}
+.qa-main-content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 10px;
+    padding-bottom: 70px;
+}
+
+#qa-search-input {
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 20px;
+    padding: 12px 20px 12px 40px;
+    border: 3px solid #ff5e14;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    outline: 0px;
+}
+/* List Item Container (li) */
+#qa-search-list li {
+    display: none; /* Controlled by JS */
+}
+
+/* List Item Link (a) - General style */
+/* This combines styles for all list items and ensures vertical centering for image items */
+#qa-search-list li a {
+    border: 1px solid #ddd; 
+    margin-top: 1px; 
+    background-color: #f6f6f6; 
+    padding: 5px 5px; /* Added back vertical padding, kept user's horizontal 5px padding */
+    font-size: 20px; 
+    color: black;
+    text-decoration: none;
+    
+    /* FIX: Layout for items with images: Use flexbox to center content */
+    display: flex; 
+    align-items: center; 
+    gap: 15px; /* Space between image and text */
+}
+
+/* Special class for items with product details wrapper (for two-line name/price display) */
+/* Removed empty .search-result-item ruleset for compatibility with CSS standards */
+
+
+/* List Item Link (a) - Hover effect */
+#qa-search-list li a:hover { /* Simplified the selector for consistency */
+    background-color: var(--accent-orange); 
+    color: white;
+    background-color: #ff5e14; 
+    font-weight: bold; 
+}
+
+/* Styling for the image within the search result */
+.product-img {
+    margin-top: 5px; 
+    width: 70px; 
+    height: 70px; 
+    object-fit: contain;
+    border-radius: 4px;
+    flex-shrink: 0; 
+    background-color: white;
+    padding: 5px;
+}
+
+
+
+/* --- SPINNER --- */
+.spinner-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #F9FAFB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1; 
+    transition: opacity 0.5s ease-out, visibility 0.5s linear 0.5s;
+}
+.spinner-wrapper.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+.spinner {
+    --size-of-spinner: 60px;
+    --spinner-border-width: 5px;
+    --spinner-color: #ff5e14;
+    --speed-of-animation: 3s;
+    width: var(--size-of-spinner);
+    height: var(--size-of-spinner);
+    border-radius: 50%;
+    position: relative; 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+.spinner::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    inset: 0;
+    border: var(--spinner-border-width) solid var(--spinner-color);
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: spinny var(--speed-of-animation) linear infinite;
+}
+.spinner-logo {
+    position: absolute;
+    z-index: 10;
+    transform: rotate(0deg);
+    text-align: center;
+    font-size: 1.2em; 
+    font-weight: bold; 
+    color: #ff5e14;
+}
+@keyframes spinny {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- TYPING ANIMATION KEYFRAMES --- */
+
+/* Defines the typing effect by growing the width from 0 to 100% */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 57% }
+}
+
+/* Defines the blinking effect for the cursor */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #ff5e14; } /* Use your main accent color */
+}
+
+.qa-main-content__title {
+    color: #ff5e14;
+    margin-bottom: 10px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid #ff5e14;
+
+    /* Use a responsive font-size */
+    font-size: clamp(24px, 5vw, 24px); /* Min 18px, Max 24px, 5vw for in-between */
+    
+    /* Calculate the steps(N) based on the full text length (e.g., 28 characters) */
+    width: 28ch; /* Ensure this is slightly more than the text length to avoid cutting off */
+
+    animation: 
+        typing 3s steps(28, end) 1s forwards, /* Update steps to match the full text length (e.g., 28) */
+        blink-caret .75s step-end infinite 4s;
+}
+
+/* Ensure the keyframes also use the correct, updated width/steps */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 28ch } /* Update width to match the steps count (e.g., 28) */
+}
+
+/* Media Query for Mobile/Small Screens */
+@media (max-width: 600px) { /* Adjust the breakpoint as needed */
+    .qa-main-content__title {
+        /*
+         * Change width to a percentage to be flexible, but still respect the
+         * white-space: nowrap; which will cause overflow.
+         * The real fix is in the font size and steps.
+         */
+        
+        /* 1. Reduce the font size so 25 characters can fit on one line */
+        font-size: 18px; /* Example smaller font size */
+
+        /* 2. Re-apply the typing animation with the same number of steps. */
+        /*
+         * If you change the number of steps, you *must* also change the
+         * animation duration proportionally to keep the same typing speed!
+         * Since we are just trying to fit the existing text, keeping steps(25)
+         * and the 3s duration is usually the easiest.
+         */
+        animation: 
+            typing 3s steps(25, end) 1s forwards,
+            blink-caret .75s step-end infinite 4s; 
+    }
+}
+
+
+#specToggleBtn{
+    background-color: #ff5e14;
+    color: white;
+    padding: 20px;
+    margin-left: 20px;
+}
+</style>
+
+
+</head>
+<body class="font-sans min-h-screen">
+
+    <div class="spinner-wrapper" id="spinner">
+        <div class="spinner">
+            <div class="spinner-logo">SE</div>
+        </div>
+    </div>
+    
+    <div class="qa-header">
+        <div class="qa-logo">
+            <a href="../index.html"><img src="../SE Logo/SE NAVBAR LOGO.png" alt="logo"></a>
+        </div>
+        <div class="qa-nav">
+            <div class="qa-nav__toggle" onclick="Show()">
+                <i></i>
+            <i style="width: 25px;"></i>
+            <i></i>
+            </div>
+            <ul id="qa-nav-list-id" class="qa-nav__list">
+                <li class="qa-nav__close"><span onclick="Hide()">×</span></li>
+                <li class="qa-nav__item"><a href="../index.html">Home</a></li>
+                <li class="qa-nav__item"><a href="../About/about.html">About Us</a></li>
+                <li style="background-color: #ff5e14; border-radius: 15px;" class="qa-nav__item"><a style="color: white;" href="../Product Page/product.html">Products</a></li>
+                <li class="qa-nav__item"><a href="../Contact/Contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+ <!-- Utility Code Start-->
+
+<div  class="second-nav text-gray-800 p-4">
+<!-- Secondary Utility Navigation Section (The desired component) -->
+    <header id="utility-bar" class="bg-white shadow-xl rounded-xl p-4 md:p-6 border-b-4 border-t-4 border-se-orange ">
+        
+        <!-- Layout: justify-end pushes all content to the right -->
+        <div class="flex flex-col md:flex-row items-center justify-end space-y-4 md:space-y-0 md:space-x-6">
+
+            <!-- 1. LEFT SIDE: (Empty Space) -->
+
+            <!-- 2. RIGHT SIDE: Icons and Buttons Wrapper -->
+            <!-- This container holds all the utility elements and is pushed to the right -->
+            <div class="flex items-center justify-between md:justify-end w-full md:w-auto space-x-6">
+                
+                <!-- Utility Icons (Wishlist, Cart) -->
+                <div class="flex items-center space-x-6">
+                    
+
+                    <!-- Cart Icon with Static Counter -->
+                    <button id="cart-button" class="relative text-gray-600 hover:text-se-orange transition duration-150 focus:outline-none">
+    <i style="font-size: 24px;" class="fa-solid fa-cart-shopping"></i>
+    <span class="sr-only">View Cart</span>
+    <span class="counter absolute -top-2 -right-2 flex items-center justify-center 
+                                h-5 w-5 rounded-full bg-se-orange text-white text-xs font-bold 
+                                transition duration-300 transform scale-100">
+        0
+    </span>
+</button>
+                </div>
+                    <!-- Login/Sign Up Buttons (Primary Action) -->
+               <div class="flex items-start space-x-4"> 
+    <a href="Form/login.html">
+        <button class="login-button py-3 px-1 rounded-lg text-gray-700 transition duration-150">
+            Log In
+        </button>
+    </a>
+    
+    <a href="Form/form.html">
+        <button class="signup-button py-3 px-1 rounded-lg transition duration-150 shadow-md">
+            Sign Up
+        </button>
+    </a>
+</div>
+
+            </div>
+
+        </div>
+    </header>
+
+    </div>
+
+<!-- Utility Code end-->
+
+
+<!-- Utility bar slider Code Start-->
+
+
+              <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99998] hidden" onclick="toggleCartSlider()"></div>
+
+<div id="cart-slider" class="fixed top-0 right-0 w-80 md:w-96 h-full bg-white shadow-2xl z-[99999] 
+                              transform translate-x-full transition-transform duration-300 ease-in-out">
+    
+    <div class="p-4 border-b flex justify-between items-center">
+        <h2  class="cart-counter text-xl font-semibold text-gray-800">Your Cart (0 Items)</h2>
+        <button onclick="toggleCartSlider()" class="text-gray-500 hover:text-gray-900 p-2 focus:outline-none">
+           <i style="font-size: 30px;" class="fa-solid fa-xmark"></i>
+            <span class="sr-only">Close Cart</span>
+        </button>
+    </div>
+
+    <div class="p-4 space-y-4 h-full overflow-y-auto pb-32">
+<div class="scroll-anim overflow-auto">
+    <table id="trow"></table>
+    </div>
+</div>
+    
+  <div class="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
+  <div class="flex justify-between font-bold text-lg mb-3">
+      <span>Subtotal:</span>
+      <span id="cart-subtotal">Rs 0.00</span>
+  </div>
+
+  <button id="checkout-button" onclick="handleCheckout()" 
+    class="w-full py-3 bg-orange-600 text-white font-bold rounded-lg transition duration-150">
+      Proceed to Checkout
+  </button>
+
+  <!-- Custom alert box -->
+  <div id="cart-alert" class="hidden text-center mt-3 text-red-600 font-semibold bg-red-100 border border-red-400 rounded-lg p-2">
+    Please add an item first!
+  </div>
+</div>
+
+
+</div>
+
+<!-- Utility bar slider code ends-->
+
+
+
+
+    <div class="qa-main-search">
+        <div class="qa-main-content">
+            <h1 class="qa-main-content__title">Search Your Desired Phone...</h1>
+            <input type="text" id="qa-search-input" onkeyup="myFunction()" title="Type in a name">
+           <!-- ID changed to qa-search-list -->
+     <ul id="qa-search-list">
+             <li><a href="../product/s25ultra(12gb-1tb).html"> <img class="product-img" src="../Product imges/samsung-galaxy-s25-ultra-pakista.png" alt="Samsung Galaxy S25 Ultra (12GB-1TB)"> Samsung Galaxy S25 Ultra (12GB-1TB)</a></li>
+             <li><a href="../product/S25 FE.html"> <img class="product-img" src="../Product imges/samsung-galaxy-s25-fe-pakistan-p.webp" alt="Samsung Galaxy S24 FE"> Samsung Galaxy S25 FE</a></li>
+             <li><a href="../product/Technospark30pro.html"> <img class="product-img" src="../Product imges/tecno-spark-30-pro-pakistan-pric.webp" alt="Tecno SPARK 30 Pro"> Tecno SPARK 30 Pro </a></li>
+             <li><a href="../product/A365G.html"> <img class="product-img" src="../Product imges/samsung-galaxy-a36-5g-pakistan-p.webp" alt="Samsung Galaxy A36 5G"> Samsung Galaxy A36 5G</a></li>
+             <li><a href="../product/xiaomipococ75.html"> <img class="product-img" src="../Product imges/Xiaomi-Poco-C75-128GB images.webp" alt="Xiaomi Poco C75"> Xiaomi Poco C75</a></li>
+             <li><a href="../product/S25ultra.html"> <img class="product-img" src="../Product imges/samsung-galaxy-s25-ultra-pakista.png" alt="Samsung Galaxy S25 Ultra"> Samsung Galaxy S25 Ultra</a></li>
+             <li><a href="../product/HMDBarbie.html"> <img class="product-img" src="../Product imges/hmd-barbie-pakistan-priceoye-yr1.webp" alt="HMD Barbie"> HMD Barbie</a></li>
+             <li><a href="../product/Nothing Phone 3A.html"> <img class="product-img" src="../Product imges/nothing-phone-3a-blue-pakistan-priceo.webp" alt="Nothing Phone 3A">Nothing Phone 3A</a></li>
+             <li><a href="../product/Oppo A3x.html"> <img class="product-img" src="../Product imges/oppo-a3x-ocean blue-pakistan-priceoye-r7zfx.webp" alt=">Oppo A3x">Oppo A3x</a></li>
+             <li><a href="../product/Infinix Smart 10 Plus.html"> <img class="product-img" src="../Product imges/infinix-smart-10-plus-Iris Blue-pakistan-p.webp" alt="Infinix Smart 10 Plus">Infinix Smart 10 Plus</a></li>
+             <li><a href="../product/Nothing Phone 3A Pro.html"> <img class="product-img" src="../Product imges/nothing-phone-3a-pro-black-pakistan-pr.webp" alt="Nothing Phone 3A Pro">Nothing Phone 3A Pro</a></li>
+             <li><a href="../product/Infinix Hot 60 Pro Plus.html"> <img class="product-img" src="../Product imges/infinix-hot-60-pro-plus-mistyVoilet-pakistan.webp" alt="Infinix Hot 60 Pro Plus">Infinix Hot 60 Pro Plus</a></li>
+             <li><a href="../product/Iphone 17 Pro Max.html"> <img class="product-img" src="../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp" alt="Iphone 17 Pro Max">Iphone 17 Pro Max</a></li>
+             <li><a href="../product/Vivo Y29.html"> <img class="product-img" src="../Product imges/vivo-y29-Noble Brown-pakistan-priceoye-2233y.webp" alt="Vivo Y29">Vivo Y29</a></li>
+             <li><a href="../product/Apple Iphone 17 Pro.html"> <img class="product-img" src="../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp" alt="Apple Iphone 17 Pro">Apple Iphone 17 Pro</a></li>
+             <li><a href="../product/Vivo X Fold 5.html"> <img class="product-img" src="../Product imges/vivo-x-fold-5-Titaniumgrey-pakistan-priceoye.webp" alt="Vivo X Fold 5">Vivo X Fold 5</a></li>
+         </ul>
+        </div>
+    </div>
+
+  <div class="mainWrapper min-h-screen p-4 flex flex-col items-center pt-8 mainBackground overflow-auto">
+
+    <div class="productCard_block bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-sm sm:max-w-xl md:max-w-4xl grid grid-cols-1 sm:grid-cols-2">
+
+        <div class="productCard_leftSide p-4 sm:p-6 relative flex flex-col justify-between min-h-0 sm:min-h-[750px] border-b sm:border-b-0 sm:border-r border-gray-100">
+            <div class="sliderBlock relative w-full h-[250px] sm:h-[650px] mt-16 overflow-hidden">
+                <div class="sliderBlock_items relative w-full h-full">
+                    <div class="sliderBlock_items__itemPhoto img-zoom-container absolute w-full h-full opacity-0 transition-opacity duration-1000 sliderBlock_items__showing">
+                        <img id="productImage1" src="../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp" alt="iPhone 17 Pro Cosmic Orange" class="w-full h-full object-contain">
+                    </div>
+                    <div class="sliderBlock_items__itemPhoto img-zoom-container absolute w-full h-full opacity-0 transition-opacity duration-1000">
+                        <img id="productImage2" src="../Product imges/apple-17-pro-max-cosmicorange side-pakistan-priceo.webp" alt="iPhone 17 Pro Side View" class="w-full h-full object-contain">
+                    </div>
+                    <div class="sliderBlock_items__itemPhoto img-zoom-container absolute w-full h-full opacity-0 transition-opacity duration-1000">
+                        <img id="productImage3" src="../Product imges/apple-17-pro-max-Deep blue-pakistan-priceo.webp" alt="iPhone 17 Pro Back View" class="w-full h-full object-contain">
+                    </div>
+                    <div class="sliderBlock_items__itemPhoto img-zoom-container absolute w-full h-full opacity-0 transition-opacity duration-1000">
+                        <img id="productImage3" src="../Product imges/apple-17-pro-max-deepblue side-pakistan-priceo.webp" alt="iPhone 17 Pro Side View" class="w-full h-full object-contain">
+                    </div>
+                    <div class="hidden sm:block absolute inset-0 opacity-20 z-40" style="background: url('https://github.com/BlackStar1991/CardProduct/blob/master/app/img/decorElements/DecorRectangle.png?raw=true') 50% 50% no-repeat;"></div>
+                </div>
+                <div class="absolute inset-0 z-50 flex justify-between items-center px-4">
+                    <button class="sliderBlock_controls__arrow sliderBlock_controls__arrowBackward w-8 h-8 rounded-full border border-indigo-500 bg-gray-900/60 hover:bg-indigo-600/90 transition-all duration-300 opacity-80 hover:opacity-100">
+                        <i class="fas fa-chevron-left text-white text-base"></i>
+                    </button>
+                    <button class="sliderBlock_controls__arrow sliderBlock_controls__arrowForward w-8 h-8 rounded-full border border-indigo-500 bg-gray-900/60 hover:bg-indigo-600/90 transition-all duration-300 opacity-80 hover:opacity-100">
+                        <i class="fas fa-chevron-right text-white text-base"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="sliderBlock_controls w-full mt-4">
+                <div class="sliderBlock_positionControls flex justify-center space-x-2 h-2">
+                    <div class="sliderBlock_positionControls__paginatorItem w-4 h-2 bg-gray-300 rounded-full cursor-pointer transition sliderBlock_positionControls__active"></div>
+                    <div class="sliderBlock_positionControls__paginatorItem w-4 h-2 bg-gray-300 rounded-full cursor-pointer transition"></div>
+                    <div class="sliderBlock_positionControls__paginatorItem w-4 h-2 bg-gray-300 rounded-full cursor-pointer transition"></div>
+                    <div class="sliderBlock_positionControls__paginatorItem w-4 h-2 bg-gray-300 rounded-full cursor-pointer transition"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="productCard_rightSide p-4 sm:p-8">
+
+            <div class="block_name w-full mt-2 mb-4">
+                <h1 id="productName" class="block_name__mainName text-2xl sm:text-3xl font-normal leading-tight text-gray-900">Apple Iphone 17 Pro</h1>
+                <h2 class="block_name__addName text-xl sm:text-2xl font-normal leading-tight text-gray-700">Buy <span id="productTitle">Apple Iphone 17 Pro</span> Price in Pakistan</h2>
+            </div>
+            <div class="block_informationAboutDevice h-auto relative mb-6">
+                <div class="block_descriptionInformation w-full text-gray-700 text-sm leading-relaxed">
+                    <p class="mb-2" id="productDescription">The revolutionary Apple iPhone 17 Pro, featuring the cutting-edge A19 Pro chip, a stunning **6.3-inch** LTPO Super Retina XDR OLED 120Hz display, and an advanced triple 48 MP camera system. Experience the future of mobile technology.</p>
+                </div>
+            </div>
+            <div class="block_rating flex items-center w-full mb-4">
+                <fieldset class="block_rating__stars">
+                    <input type="radio" id="star5" name="rating" value="5" checked /><label for="star5" title="Awesome"></label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Very Good"></label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Good"></label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Fair"></label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Poor"></label>
+                </fieldset>
+                <span id="productRating" class="block_rating__avarage ml-2 text-gray-800 text-sm font-semibold">5.0</span>
+                <span id="productReviews" class="block_rating__reviews ml-2 text-gray-500 text-sm font-medium">| 1 Review</span>
+            </div>
+            <div class="block_price w-full mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
+                <div class="flex flex-col">
+                    <p class="text-gray-500 text-xs font-medium uppercase mb-1">Salman Electronics Price</p>
+                    <p id="productPrice" class="text-gray-900 text-3xl font-bold inline-block" style="font-family: sans-serif;">
+                        <sup>Rs</sup>565,000
+                    </p>
+                    <div class="flex items-center mt-1">
+                        <span id="productOldPrice" class="text-gray-400 text-sm mr-2"> </span>
+                        <span id="productDiscount" class="text-green-600 text-sm font-semibold px-2 py-0.5 rounded-full"></span>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-gray-500 text-xs font-medium uppercase mb-1">Availability</p>
+                    <p id="productAvailability" class="text-green-600 text-xl font-bold">In Stock</p>
+                </div>
+            </div>
+
+            <div class="block_goodColor mt-6 w-full">
+                <p class="text_specification text-gray-800 font-semibold text-sm mb-4">Select Color</p>
+                <div class="block_goodColor__allColors flex gap-4">
+                    <label class="flex flex-col items-center opacity-50 cursor-not-allowed group">
+                        <input type="radio" name="color" value="silver" class="radio_button" disabled>
+                        <span class="color-swatch inline-block w-6 h-6 rounded-full bg-gray-200 transition-all duration-200 mb-1 border-2 border-transparent group-hover:border-gray-500"></span>
+                        <span class="text-xs text-gray-600 font-medium">Refined Silver (Sold Out)</span>
+                    </label>
+                    <label class="flex flex-col items-center cursor-pointer group">
+                        <input type="radio" name="color" value="deep_blue" class="radio_button" checked>
+                        <span class="color-swatch inline-block w-6 h-6 rounded-full bg-blue-900 transition-all duration-200 mb-1 border-2 border-indigo-500"></span>
+                        <span class="text-xs text-gray-600 font-medium">Deep Blue</span>
+                    </label>
+                    <label class="flex flex-col items-center opacity-50 cursor-not-allowed group">
+                        <input type="radio" name="color" value="cosmic_orange" class="radio_button" disabled>
+                        <span class="color-swatch inline-block w-6 h-6 rounded-full bg-orange-600 transition-all duration-200 mb-1 border-2 border-transparent group-hover:border-gray-500"></span>
+                        <span class="text-xs text-gray-600 font-medium">Cosmic Orange (Sold Out)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="block_storage mt-8 w-full">
+                <p class="text_specification text-gray-800 font-semibold text-sm mb-4">Select Storage</p>
+                <div class="block_storage__options flex gap-4">
+                    <label class="opacity-50 cursor-not-allowed group">
+                        <input type="radio" name="storage" value="256GB-12GB" class="radio_button" disabled>
+                        <span class="storage-swatch inline-block py-2 px-4 rounded-lg bg-gray-100 text-gray-800 font-medium border border-gray-300 transition-all duration-200">512GB</span>
+                    </label>
+                    <label class="cursor-pointer group">
+                        <input type="radio" name="storage" value="512GB-12GB" class="radio_button" checked>
+                        <span class="storage-swatch inline-block py-2 px-4 rounded-lg bg-indigo-100 text-gray-800 font-medium border border-indigo-500 transition-all duration-200">256GB</span>
+                    </label>
+                    <label class="opacity-50 cursor-not-allowed group">
+                         <input type="radio" name="storage" value="1TB-12GB" class="radio_button" disabled>
+                        <span class="storage-swatch inline-block py-2 px-4 rounded-lg bg-gray-100 text-gray-800 font-medium border border-gray-300 transition-all duration-200">1TB</span>
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="block_quantity relative h-12 mt-10 flex items-center">
+                <span class="text-gray-800 font-semibold text-sm mr-4">Quantity:</span>
+                <div class="block_quantity__chooseBlock flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                    <input type="text" value="1" placeholder="1" class="block_quantity__number w-12 h-12 text-center text-lg focus:outline-none" />
+                    <div class="flex flex-col h-full">
+                        <button class="block_quantity__button block_quantity__up w-6 h-6 flex items-center justify-center text-gray-700 hover:text-indigo-600 transition"><i class="fas fa-chevron-up text-xs"></i></button>
+                        <button class="block_quantity__button block_quantity__down w-6 h-6 flex items-center justify-center text-gray-700 hover:text-indigo-600 transition"><i class="fas fa-chevron-down text-xs"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="block_actions mt-10 flex flex-col gap-3">
+                <button onclick=" buyNow()"
+                    style="background-color: #ff5e14;"
+                    class="button button_buyNow w-full h-12 rounded-lg text-white font-semibold text-base transition-all duration-300 shadow-md hover:shadow-lg">
+                    BUY NOW <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button onclick="addProduct('../../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp' , 'Apple iPhone 17 Pro' , 'Rs 565,000' , 'Refined Silver' , 'Deep Blue' , 'Cosmic Orange' , '256GB - 12GB RAM' , '512GB - 12GB RAM' , '1TB - 12GB RAM' , '2TB - 12GB RAM')" style="background-color: black;" class="button button_addToCard w-full h-12 rounded-lg text-white font-semibold text-base transition-all duration-300 shadow-md hover:shadow-lg">ADD TO CART <i class="fa-solid fa-cart-shopping"></i></button>
+            </div>
+           
+        </div>
+    </div>
+
+    <div class="block_specification w-full max-w-sm sm:max-w-xl md:max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden mt-8 mb-10 p-6">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="text-2xl font-semibold text-gray-800">Specifications</h2>
+            <button id="specToggleBtn" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors duration-200">
+                Show Full Specs
+            </button>
+        </div>
+        <div class="flex flex-wrap justify-around text-center py-4 border-b border-gray-200 mb-6">
+            <div class="flex flex-col items-center p-2">
+                <img src="https://placehold.co/50x50/3498db/FFFFFF/png?text=6.3" alt="Display Icon" class="h-12 w-12 mb-2">
+                <span class="text-base font-semibold text-gray-800">6.3 Inches</span>
+                <span class="text-xs text-gray-500">Display</span>
+            </div>
+            <div class="flex flex-col items-center p-2">
+                <img src="https://placehold.co/50x50/f1c40f/FFFFFF/png?text=12GB" alt="RAM Icon" class="h-12 w-12 mb-2">
+                <span class="text-base font-semibold text-gray-800">12 GB</span>
+                <span class="text-xs text-gray-500">RAM</span>
+            </div>
+            <div class="flex flex-col items-center p-2">
+                <img src="https://placehold.co/50x50/e74c3c/FFFFFF/png?text=3988" alt="Battery Icon" class="h-12 w-12 mb-2">
+                <span class="text-base font-semibold text-gray-800">3988 mAh</span>
+                <span class="text-xs text-gray-500">Battery</span>
+            </div>
+            <div class="flex flex-col items-center p-2">
+                <img src="https://placehold.co/50x50/2ecc71/FFFFFF/png?text=48MP" alt="Camera Icon" class="h-12 w-12 mb-2">
+                <span class="text-base font-semibold text-gray-800">48 + 48 + 48 MP</span>
+                <span class="text-xs text-gray-500">Back Camera</span>
+            </div>
+        </div>
+        <div id="fullSpecBlock" class="block_descriptionCharacteristic pt-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-3">General Features</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Release Date</span><span class="font-medium text-gray-900">09 Sept 2025</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">SIM Support</span><span class="font-medium text-gray-900">Nano-Sim + E-Sim</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Phone Dimensions</span><span class="font-medium text-gray-900">150 x 71.9 x 8.8 mm</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Phone Weight</span><span class="font-medium text-gray-900">206g</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Operating System</span><span class="font-medium text-gray-900">IOS 26</span></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-3 mt-6">Display</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Screen Size</span><span class="font-medium text-gray-900">6.3 Inches</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Screen Resolution</span><span class="font-medium text-gray-900">1206 x 2622 pixels</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Screen Type</span><span class="font-medium text-gray-900">LTPO Super Retina XDR OLED, 120Hz</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Screen Protection</span><span class="font-medium text-gray-900">Ceramic Shield 2, Mohs level 5</span></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-3 mt-6">Memory</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Internal Memory</span><span class="font-medium text-gray-900">256GB, 512GB, 1TB</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">RAM</span><span class="font-medium text-gray-900">12GB</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Card Slot</span><span class="font-medium text-gray-900">No</span></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-3 mt-6">Performance</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Processor</span><span class="font-medium text-gray-900">Apple A19 Pro</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">GPU</span><span class="font-medium text-gray-900">Apple GPU (6-core graphics)</span></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-3">Battery</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Type</span><span class="font-medium text-gray-900">3988 mAh</span></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-3 mt-6">Camera</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Front Camera</span><span class="font-medium text-gray-900">18 MP</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Front Flash Light</span><span class="font-medium text-gray-900">No</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Front Video Recording</span><span class="font-medium text-gray-900">4K@24/25/30/60fps</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Back Flash Light</span><span class="font-medium text-gray-900">Yes</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Back Camera</span><span class="font-medium text-gray-900">48 + 48 + 48 MP</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Back Video Recording</span><span class="font-medium text-gray-900">4K@24/25/30/60/100/120fps</span></div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-3 mt-6">Connectivity</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Bluetooth</span><span class="font-medium text-gray-900">Yes</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">3G</span><span class="font-medium text-gray-900">Yes</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">4G/LTE</span><span class="font-medium text-gray-900">Yes</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">5G</span><span class="font-medium text-gray-900">Yes</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">Radio</span><span class="font-medium text-gray-900">No</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">WiFi</span><span class="font-medium text-gray-900">Yes</span></div>
+                        <div class="flex justify-between border-b border-dashed py-1"><span class="text-gray-600">NFC</span><span class="font-medium text-gray-900">Yes</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <script>
+        // --- NAVBAR TOGGLE FUNCTIONS ---
+function Show() {
+    const navList = document.getElementById("qa-nav-list-id");
+    if (navList) {
+        navList.classList.add("qa-nav__list--show");
+    }
+}
+function Hide() {
+    const navList = document.getElementById("qa-nav-list-id");
+    if (navList) {
+        navList.classList.remove("qa-nav__list--show");
+    }
+}
+
+// --- SEARCH FILTER FUNCTION ---
+function myFunction() {
+    const input = document.getElementById('qa-search-input');
+    const filter = input.value.toUpperCase();
+    const ul = document.getElementById("qa-search-list");
+    const li = ul.getElementsByTagName('li');
+
+    for (let i = 0; i < li.length; i++) {
+        const a = li[i].getElementsByTagName("a")[0];
+        const txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+ // Updated ID reference
+    var navList = document.getElementById("qa-nav-list-id");
+    function Show() {
+        navList.classList.add("qa-nav__list--show");
+    }
+    function Hide(){
+        navList.classList.remove("qa-nav__list--show");
+    }
+
+
+
+    function myFunction() {
+        var input, filter, ul, li, a, i;
+        // Updated ID reference
+        input = document.getElementById("qa-search-input"); 
+        filter = input.value.toUpperCase();
+        // Updated ID reference
+        ul = document.getElementById("qa-search-list"); 
+        li = ul.getElementsByTagName("li");
+
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (filter !== "" && a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "block"; // Show match
+            } else {
+                li[i].style.display = "none"; // Hide non-match/empty search
+            }
+        }
+    }
+
+// --- MAIN SCRIPT INITIALIZATION ---
+window.onload = function () {
+
+    // --- SPINNER LOGIC ---
+    const MINIMUM_LOADER_DISPLAY_TIME = 1500; // 1.5 seconds
+    const startTime = Date.now();
+    const spinnerWrapper = document.getElementById("spinner");
+    if(spinnerWrapper) {
+        const elapsedTime = Date.now() - startTime;
+        const loaderRemainingTime = MINIMUM_LOADER_DISPLAY_TIME - elapsedTime;
+        setTimeout(() => {
+            spinnerWrapper.classList.add("hidden");
+        }, Math.max(0, loaderRemainingTime));
+    }
+
+
+    // --- SLIDER ELEMENTS ---
+    const slides = document.getElementsByClassName("sliderBlock_items__itemPhoto");
+    const next = document.getElementsByClassName("sliderBlock_controls__arrowForward")[0];
+    const previous = document.getElementsByClassName("sliderBlock_controls__arrowBackward")[0];
+    const paginators = document.getElementsByClassName("sliderBlock_positionControls__paginatorItem");
+    let currentSlide = 0;
+    let slideInterval = setInterval(nextSlide, 5000);
+
+    function goToSlide(n) {
+        if (slides.length === 0) return;
+        slides[currentSlide].classList.remove('sliderBlock_items__showing');
+        paginators[currentSlide].classList.remove('sliderBlock_positionControls__active');
+        currentSlide = (n + slides.length) % slides.length;
+        slides[currentSlide].classList.add('sliderBlock_items__showing');
+        paginators[currentSlide].classList.add('sliderBlock_positionControls__active');
+        updateZoomForActiveSlide();
+    }
+
+    function nextSlide() {
+        goToSlide(currentSlide + 1);
+    }
+
+    function previousSlide() {
+        goToSlide(currentSlide - 1);
+    }
+
+    if(next && previous) {
+        next.onclick = () => { clearInterval(slideInterval); nextSlide(); slideInterval = setInterval(nextSlide, 5000); };
+        previous.onclick = () => { clearInterval(slideInterval); previousSlide(); slideInterval = setInterval(nextSlide, 5000); };
+    }
+
+    for (let i = 0; i < paginators.length; i++) {
+        paginators[i].onclick = () => { clearInterval(slideInterval); goToSlide(i); slideInterval = setInterval(nextSlide, 5000); };
+    }
+
+    // --- IMAGE ZOOM FUNCTION ---
+    function updateZoomForActiveSlide() {
+        const oldLens = document.getElementById("imgZoomLens");
+        if (oldLens) oldLens.remove();
+        const activeSlide = slides[currentSlide];
+        const activeImage = activeSlide ? activeSlide.querySelector('img') : null;
+        if (activeImage && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+            imageZoom(activeImage.id, activeSlide);
+        }
+    }
+
+    function imageZoom(imgID, container) {
+        const img = document.getElementById(imgID);
+        if(!img || !container) return;
+
+        const lens = document.createElement("DIV");
+        lens.setAttribute("class", "img-zoom-lens");
+        lens.setAttribute("id", "imgZoomLens");
+        container.appendChild(lens);
+        
+        const zoomRatio = 2;
+        const cx = lens.offsetWidth / zoomRatio;
+        const cy = lens.offsetHeight / zoomRatio;
+
+        lens.style.backgroundImage = `url('${img.src}')`;
+        lens.style.backgroundSize = `${img.width * zoomRatio}px ${img.height * zoomRatio}px`;
+
+        const moveLens = (e) => {
+            e.preventDefault();
+            const pos = getCursorPos(e);
+            let x = pos.x;
+            let y = pos.y;
+            
+            lens.style.opacity = 1;
+
+            if (x > img.width - (lens.offsetWidth / 2)) { x = img.width - (lens.offsetWidth / 2); }
+            if (x < lens.offsetWidth / 2) { x = lens.offsetWidth / 2; }
+            if (y > img.height - (lens.offsetHeight / 2)) { y = img.height - (lens.offsetHeight / 2); }
+            if (y < lens.offsetHeight / 2) { y = lens.offsetHeight / 2; }
+            
+            lens.style.left = `${x}px`;
+            lens.style.top = `${y}px`;
+            lens.style.backgroundPosition = `-${(x * zoomRatio) - cx}px -${(y * zoomRatio) - cy}px`;
+        };
+        const hideLens = () => { lens.style.opacity = 0; };
+
+        container.addEventListener("mousemove", moveLens);
+        container.addEventListener("mouseleave", hideLens);
+
+        function getCursorPos(e) {
+            e = e || window.event;
+            const a = img.getBoundingClientRect();
+            let x = e.pageX - a.left - window.pageXOffset;
+            let y = e.pageY - a.top - window.pageYOffset;
+            return { x, y };
+        }
+    }
+    updateZoomForActiveSlide();
+
+    // --- QUANTITY CONTROLS ---
+    const up = document.getElementsByClassName('block_quantity__up')[0];
+    const down = document.getElementsByClassName('block_quantity__down')[0];
+    const input = document.getElementsByClassName('block_quantity__number')[0];
+
+    if (up && down && input) {
+        const getValue = () => parseInt(input.value) || 1;
+        up.onclick = () => { input.value = getValue() + 1; };
+        down.onclick = () => { input.value = getValue() > 1 ? getValue() - 1 : 1; };
+    }
+    
+    // --- SPECIFICATION TOGGLE ---
+    const specToggleBtn = document.getElementById("specToggleBtn");
+    const fullSpecBlock = document.getElementById("fullSpecBlock");
+
+    if (specToggleBtn && fullSpecBlock) {
+        specToggleBtn.onclick = function () {
+            const isVisible = fullSpecBlock.classList.toggle("block_descriptionCharacteristic__active");
+            specToggleBtn.textContent = isVisible ? "Hide Full Specs" : "Show Full Specs";
+            fullSpecBlock.style.maxHeight = isVisible ? `${fullSpecBlock.scrollHeight}px` : "0";
+        };
+        // Initial setup for smooth transition
+        fullSpecBlock.style.maxHeight = "0";
+    }
+};
+
+// --- INPUT PLACEHOLDER TYPING ANIMATION ---
+    const searchInput = document.getElementById('qa-search-input');
+    const fullPlaceholder = "Search for iPhone, Samsung, Xiaomi, etc..."; // The full text to type
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 100; // Speed in milliseconds
+    const pauseDuration = 2000; // Pause at the end before repeating
+
+    function typePlaceholder() {
+        // Determine the current text to display
+        const currentText = fullPlaceholder.substring(0, charIndex);
+        searchInput.setAttribute('placeholder', currentText);
+
+        if (!isDeleting) {
+            // Typing forward
+            if (charIndex < fullPlaceholder.length) {
+                charIndex++;
+                setTimeout(typePlaceholder, typingSpeed);
+            } else {
+                // Done typing, start pause
+                isDeleting = true;
+                setTimeout(typePlaceholder, pauseDuration);
+            }
+        } else {
+            // Deleting backward
+            if (charIndex > 0) {
+                charIndex--;
+                setTimeout(typePlaceholder, typingSpeed / 2); // Faster deletion
+            } else {
+                // Done deleting, start typing again
+                isDeleting = false;
+                setTimeout(typePlaceholder, 500); // Short pause before re-typing
+            }
+        }
+    }
+
+    // Start the animation when the page loads
+    if (searchInput) {
+        typePlaceholder();
+    }
+    // ------------------------------------------
+
+
+    // Add to cart code start
+
+// --- Configuration & Initialization ---
+    const CART_STORAGE_KEY = 'cartItemCount';
+    
+    // CRITICAL: Load the current cart count from Local Storage
+    let cartItemCount = parseInt(localStorage.getItem(CART_STORAGE_KEY) || '0', 10);
+
+    // --- Element Getters ---
+    const cartButton = document.getElementById('cart-button');
+    const cartSlider = document.getElementById('cart-slider');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const checkoutButton = document.getElementById('checkout-button'); // The new element
+
+    
+    // --- Slider Toggling Function (Your original code) ---
+    function toggleCartSlider() {
+        if (!cartSlider || !cartOverlay) return; 
+
+        const isHidden = cartSlider.classList.contains('translate-x-full');
+
+        if (isHidden) {
+            cartSlider.classList.remove('translate-x-full');
+            cartOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            cartSlider.classList.add('translate-x-full');
+            cartOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+
+
+
+    // --- Checkout Logic (The function you need) ---
+    /**
+     * Checks cart count and either alerts or navigates.
+     */
+   function handleCheckout(event) {
+    event.preventDefault(); 
+    
+    // Ensure the cartItemCount is loaded (assuming your previous script is running)
+    var counter = document.getElementById("counter").innerText;
+
+    if (counter === 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...can't proceed to checkout",
+            text: "Please add an item to your cart before proceeding to checkout",
+            
+            // *** FIX: ADD THIS CUSTOM CLASS PROPERTY ***
+            customClass: {
+                // Ensure the SweetAlert container has a Z-index higher than your cart slider (99999)
+                container: 'sweet-alert-top-zindex' 
+            }
+        });
+    } else {
+        window.location.href = '../cheak.html'; 
+    }
+}
+
+    // --- Event Listeners ---
+    
+    // 1. Open/Close Slider
+    if (cartButton) {
+        cartButton.addEventListener('click', toggleCartSlider);
+    }
+
+    // 2. Checkout Logic
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', handleCheckout);
+    }
+    
+    // 3. Optional: Close on Escape Key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && cartSlider && !cartSlider.classList.contains('translate-x-full')) {
+            toggleCartSlider();
+        }
+    });
+    </script>
+
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+      <script>
+      lucide.createIcons();
+    </script>
+
+    <script src="../ATC.js"></script>
+</body>
+</html>

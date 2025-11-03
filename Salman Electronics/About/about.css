@@ -1,0 +1,1401 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* CONCAT.CSS - Add/Update these rules */
+
+html, body {
+    /* Guarantees no element can exceed the viewport width */
+    width: 100%;
+    /* Confirms previous fix is present and correct */
+    overflow-x: hidden; 
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    /* Ensures the main content area itself is constrained */
+    max-width: 1200px;
+    /* Use padding to prevent content from touching screen edges */
+    padding: 0 40px; 
+    /* Ensures the element does not inherit any unexpected margin/positioning */
+    width: 100%; 
+    margin: 0 auto;
+} 
+ 
+ /* --- 1. SPINNER STYLES starts ---  */
+        .spinner-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F9FAFB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1; 
+            transition: opacity 0.5s ease-out, visibility 0.5s linear 0.5s;
+        }
+
+        .spinner-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            --size-of-spinner: 60px;
+            --spinner-border-width: 5px;
+            --spinner-color: #ff5e14 ;
+            --speed-of-animation: 3s; /* Slower rotation */
+
+            width: var(--size-of-spinner);
+            height: var(--size-of-spinner);
+            border-radius: 50%;
+            position: relative; 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* The rotating ring */
+        .spinner::after {
+            content: "";
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            inset: 0;
+            border: var(--spinner-border-width) solid var(--spinner-color);
+            border-left-color: transparent;
+            border-right-color: transparent;
+            animation: spinny var(--speed-of-animation) linear infinite;
+        }
+        
+        /* The non-rotating logo in the center */
+        .spinner-logo {
+            position: absolute;
+            z-index: 10;
+            transform: rotate(0deg); /* Ensure it does not rotate */
+            text-align: center;
+            /* Placeholder styling */
+            font-size: 1.2em; 
+            font-weight: bold; 
+            color: #ff5e14;
+        }
+
+        @keyframes spinny {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+/* --- 1. SPINNER STYLES ends --- */
+
+/* Navbar Styling */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Header Component --- */
+.qa-header {
+    height: 60px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.qa-logo {
+    max-width: 250px;
+    padding: 0 10px;
+    overflow: hidden;
+}
+
+.qa-logo a {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 60px;
+}
+
+.qa-logo a img {
+    max-width: 100%;
+    max-height: 60px;
+}
+
+.qa-nav {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    padding: 0 10px;
+}
+
+.qa-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.qa-nav__item a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    text-transform: uppercase;
+    display: block;
+    height: 60px;
+    line-height: 60px;
+    cursor: pointer;
+    padding: 0 10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.qa-nav__item a:hover {
+    color: #ffffff;
+    background-color: #ff5e14;
+    border-radius: 15px;
+}
+
+.qa-nav__close {
+    display: none;
+    text-align: right;
+    padding: 10px;
+}
+
+.qa-nav__close span {
+    font-size: 40px;
+    display: inline-block;
+    border: 1px solid #cccccc;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.qa-nav__toggle {
+    padding: 18px 8px;
+    width: 50px;
+    height: 60px;
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: white;
+}
+
+.qa-nav__toggle i {
+    background-color: #ff5e14;
+    height: 4px;
+    display: block;
+}
+
+/* Mobile styles for screens <= 650px */
+@media only screen and (max-width: 650px) {
+    .qa-header {
+        justify-content: space-between;
+    }
+
+    .qa-logo {
+        flex: 1;
+    }
+
+    .qa-nav {
+        flex: 0;
+    }
+
+    .qa-nav__list {
+        flex-wrap: nowrap;
+        position: fixed;
+        left: 100%; /* Off-screen by default */
+        top: 0;
+        flex-direction: column;
+        background: #ffffff;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        transition: left .3s;
+        text-align: center;
+        z-index: 100; /* Ensure it's on top */
+    }
+
+    .qa-nav__item a {
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        height: auto;
+        line-height: normal;
+        color: black;
+    }
+
+    .qa-nav__close {
+        display: block;
+    }
+
+    .qa-nav__toggle {
+        display: flex; /* Visible on mobile */
+    }
+
+    .qa-nav__list--show {
+        left: 0; /* Slide in when active */
+    }
+}
+
+
+/* Navbar Styling ends */
+
+
+/* =================================================================
+  secondary HEADER AND NAVIGATION STYLES (qa- prefix)
+   ================================================================= */
+
+/* Set default font to Inter, as required */
+body {
+    /* Kept existing styles, but note body should not be redefined here if already done globally */
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+}
+
+/* Custom animation for the cart counter pulse (CSS kept) */
+@keyframes ping-once {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.animate-ping-once {
+    animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+#utility-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+    
+    /* ADDED FOR LAYOUT */
+    display: flex; 
+    justify-content: flex-end; /* Pushes content to the right */
+    align-items: center; /* Vertically centers items */
+    padding: 10px 20px; /* Add some padding to prevent cutting off on the edges */
+}
+
+.login-button {
+    background-color: white;
+    color: black;
+    /* Use fixed padding for content-based size */
+    padding: 8px 15px; 
+    width: auto; /* Allow button to size itself */
+    flex-shrink: 0; /* Prevents button from getting too small */
+    /* Add a small margin to separate it from other icons/buttons */
+    margin-right: 10px; 
+}
+
+.login-button:hover{
+    background-color: #ff5e14;
+    color: white;
+}
+
+.signup-button {
+    background-color: #ff5e14;
+    color: white;
+    /* Use fixed padding for content-based size */
+    padding: 8px 15px; 
+    width: auto; /* Allow button to size itself */
+    flex-shrink: 0; /* Prevents button from getting too small */
+    margin-left: 10px; /* Space from Login button */
+    /* Use padding on the utility bar instead of a huge margin-right */
+    margin-right: 0; 
+}
+
+.signup-button:hover{
+    background-color: white;
+    color: black;
+}
+
+.sweet-alert-top-zindex {
+    z-index: 100000 !important; 
+}
+
+
+@media (max-width: 768px) {
+  #utility-bar {
+    display: flex;
+    justify-content: space-around !important;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .cart-section {
+    order: 1; /* Cart on left */
+  }
+
+  .auth-buttons {
+    order: 2; /* Buttons on right */
+    display: flex;
+    gap: 8px;
+  }
+}
+
+/* 🎨 General Table Styling */
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 🛒 Responsive Cart Item Styling */
+.product-row {
+  position: relative; /* allow the X button to position inside */
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.product-img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-details-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  word-wrap: break-word;
+}
+
+.product-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.2;
+}
+
+.product-price-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #007bff;
+  white-space: nowrap;
+}
+
+.product-price {
+  font-size: 1.3em;
+  color: #007bff;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* ❌ Delete Button — always top-right of product card */
+.single-delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.single-delete-button:hover {
+  color: #ff5e14;
+  transform: scale(1.1);
+}
+
+.scroll-anim {
+  scrollbar-width: thin;
+  scrollbar-color: #ff5e14 #f1f1f1;
+  max-height: 600px;
+}
+
+/* 🧁 Force SweetAlert2 popup to appear above all UI layers */
+.swal2-container {
+  z-index: 999999 !important;
+}
+
+
+/* 📱 Responsive Layout Adjustments */
+@media only screen and (max-width: 768px) {
+  .product-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .product-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .single-delete-button {
+    top: 6px;
+    right: 6px;
+    font-size: 20px;
+  }
+
+    .qa-main-content__title { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  .product-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .product-details-container {
+    align-items: center;
+  }
+
+  .product-title {
+    font-size: 14px;
+  }
+
+  .product-price-label {
+    font-size: 14px;
+  }
+
+  .single-delete-button {
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+  }
+}
+
+
+/* =================================================================
+   MAIN SEARCH AND TYPING ANIMATION
+   ================================================================= */
+.qa-main-content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 10px;
+    padding-bottom: 70px;
+}
+
+.qa-main-content__title {
+    color: #ff5e14;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 30px;
+    margin-bottom: 10px;
+    /* Typewriter effect properties */
+    display: block;
+    width: 25ch;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid #ff5e14;
+
+    /* Animations */
+    animation:
+        typing 3s steps(25, end) 1s forwards,
+        blink-caret .75s step-end infinite 4s;
+}
+
+#qa-search-input {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 3px solid #ff5e14;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    outline: 0;
+}
+
+/* List Item Container (li) */
+#qa-search-list li {
+    display: none; /* Controlled by JS */
+}
+
+/* List Item Link (a) - General style */
+#qa-search-list li a {
+    border: 1px solid #ddd; 
+    margin-top: 1px; 
+    background-color: #f6f6f6; 
+    padding: 5px 5px; 
+    font-size: 20px; 
+    color: black;
+    text-decoration: none;
+    
+    /* Layout for items with images: Use flexbox to center content */
+    display: flex; 
+    align-items: center; 
+    gap: 15px; /* Space between image and text */
+}
+
+/* List Item Link (a) - Hover effect */
+#qa-search-list li a:hover { /* Simplified the selector for consistency */
+    background-color: var(--accent-orange); 
+    color: white;
+    background-color: #ff5e14; 
+    font-weight: bold; 
+}
+
+/* Styling for the image within the search result */
+.product-img {
+    margin-top: 5px; 
+    width: 70px; 
+    height: 70px; 
+    object-fit: contain;
+    border-radius: 4px;
+    flex-shrink: 0; 
+    background-color: white;
+    padding: 5px;
+}
+
+/* TYPING ANIMATION KEYFRAMES */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 80% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #ff5e14; }
+}
+
+
+
+/* =================================================================
+   MISC UTILITIES
+   ================================================================= */
+.whatsapp-float {
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    z-index: 999;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+
+
+
+/* General section styling */
+.delivery-section {
+  text-align: center;
+  background-color: white;
+  color: black;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Heading */
+.delivery-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 50px;
+  font-weight: bold;
+}
+
+/* Stats layout */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: #ff5e14;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 0 auto 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Background cityscape silhouette */
+.cityscape{
+    width: 100%;
+    height: 100px;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats {
+    gap: 40px;
+  }
+  .circle {
+    width: 80px;
+    height: 80px;
+    font-size: 1.3rem;
+  }
+}
+
+
+        :root {
+            --dark-bg: #0A0A0A; /* Even darker for more contrast */
+            --orange-primary: #FF5722;
+            --orange-dark: #E64A19;
+            --light-text: #E0E0E0;
+            --grey-text: #B0B0B0;
+            --card-bg: #F8F8F8; /* Light grey for card backgrounds */
+            --white-text: #FFFFFF;
+            --section-bg: #FFFFFF;
+            --dark-heading: #222222;
+            --dark-paragraph: #444444;
+            --border-color: #E0E0E0; /* Lighter border */
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--section-bg);
+            color: var(--dark-paragraph);
+            line-height: 1.7; /* Increased line height for readability */
+            background-image: linear-gradient(to bottom, #f0f0f0 1px, transparent 1px); /* Subtle background pattern */
+            background-size: 100% 20px;
+        }
+
+        /* Header - Top Dark Section */
+        .hero-section {
+            background-color: var(--dark-bg);
+            color: var(--white-text);
+            padding: 50px 20px 80px; /* More padding */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at top, rgba(255, 87, 34, 0.15) 0%, transparent 70%), linear-gradient(180deg, var(--dark-bg) 0%, #000000 100%); /* More dynamic gradient */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3); /* Add shadow to header */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            margin-top: 5px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 50px;
+            position: relative;
+            z-index: 10; /* Ensure header elements are above background patterns */
+        }
+
+        .header-top .back-arrow {
+            position: absolute;
+            left: 20px;
+            font-size: 28px; /* Larger arrow */
+            cursor: pointer;
+            color: var(--white-text);
+            transition: color 0.3s ease;
+        }
+        .header-top .back-arrow:hover {
+            color: var(--orange-primary);
+        }
+
+        .header-top .about-us {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px; /* Slightly larger */
+            font-weight: 600;
+        }
+
+        .logo-container {
+            margin-bottom: 20px; /* Reduced margin */
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo img {
+            width: 70px; /* Slightly smaller logo */
+            height: auto;
+            background-color: var(--orange-primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px; /* Adjusted font size */
+            font-weight: 800; /* Bolder */
+            color: var(--white-text);
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.6); /* Glowing effect */
+        }
+
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 52px; /* Larger title */
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--white-text);
+            text-shadow: 0 0 15px rgba(252, 136, 101, 0.6); /* Text shadow for depth */
+        }
+
+        .hero-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 19px; /* Slightly larger subtitle */
+            max-width: 650px;
+            margin: 0 auto 40px auto; /* More margin below subtitle */
+            color: var(--light-text);
+        }
+        
+        /* Call to Action Button */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--orange-primary);
+            color: var(--white-text);
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-button:hover {
+            background-color: var(--orange-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 87, 34, 0.6);
+        }
+
+        /* Model-Viewer Component */
+        model-viewer {
+            width: 100%;
+            max-width: 800px; /* Wider model viewer */
+            height: 450px; /* Taller model viewer */
+            margin: 60px auto 0 auto; /* More space above model */
+            background-color: transparent;
+            border-radius: 15px; /* Softer edges */
+            cursor: grab;
+            --poster-color: transparent;
+            position: relative;
+            z-index: 5; /* Below header text, above background */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4); /* Stronger shadow for the model */
+        }
+        
+        /* Main Content Sections */
+        .container {
+            max-width: 960px; /* Wider content area */
+            margin: 0 auto;
+            padding: 40px 20px; /* More padding */
+        }
+
+        section {
+            padding: 80px 0; /* More vertical padding */
+            border-bottom: 1px solid var(--border-color);
+            position: relative; /* For icon positioning */
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+            padding-bottom: 100px; /* Extra padding at the bottom of the page */
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px; /* Larger section titles */
+            font-weight: 800;
+            color: var(--dark-heading);
+            text-align: center;
+            margin-bottom: 60px; /* More space below title */
+            position: relative;
+            padding-bottom: 15px;
+        }
+        h2::after { /* Underline effect */
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--orange-primary);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26px; /* Larger H3 */
+            font-weight: 700;
+            color: var(--dark-heading);
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 17px; /* Slightly larger paragraph text */
+            color: var(--dark-paragraph);
+            margin-bottom: 20px;
+        }
+
+        .journey-content, .mission-content {
+            text-align: center;
+            background-color: var(--card-bg); /* Card background */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-light); /* Softer shadow */
+            max-width: 800px; /* Constrain width */
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .journey-content p, .mission-content p {
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+        }
+        .core-values-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Grid for values */
+            gap: 30px; /* Spacing between cards */
+        }
+
+        /* Section Icons */
+        .section-icon {
+            position: absolute;
+            top: 20px; /* Adjusted position */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 50px; /* Large icons */
+            color: var(--orange-primary);
+            opacity: 0.1; /* Very subtle */
+            z-index: 1;
+        }
+        .our-journey .section-icon { top: 30px; } /* Adjust for title height */
+        .our-mission .section-icon { top: 30px; }
+
+
+        /* Milestones & Core Values Layout */
+        .milestone-item, .value-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 35px; /* More space */
+            text-align: left;
+            background-color: var(--card-bg); /* Card background for items */
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .milestone-item:hover, .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-medium);
+        }
+
+        .milestone-item .icon, .value-item .icon {
+            flex-shrink: 0;
+            width: 60px; /* Larger icon circles */
+            height: 60px;
+            background-color: var(--orange-primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 25px; /* More space */
+            color: var(--white-text);
+            font-size: 28px; /* Larger icon numbers */
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(255, 87, 34, 0.3);
+        }
+
+        /* Core Values specific icon styling */
+        .value-item .icon i {
+            font-size: 26px; /* Font Awesome icon size */
+        }
+
+        .milestone-item .content, .value-item .content {
+            flex-grow: 1;
+        }
+
+        .milestone-item h4, .value-item h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px; /* Larger H4 */
+            font-weight: 700;
+            color: var(--dark-heading);
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .milestone-item p, .value-item p {
+            font-size: 16px; /* Slightly larger paragraph */
+            color: var(--dark-paragraph);
+            margin-bottom: 0;
+        }
+
+        /* FAQs Section */
+        .faq-item {
+            border: 1px solid var(--border-color);
+            border-radius: 12px; /* Softer edges */
+            margin-bottom: 20px; /* More space */
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            transition: box-shadow 0.3s ease;
+        }
+        .faq-item:hover {
+            box-shadow: 0 8px 25px var(--shadow-medium);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px; /* More padding */
+            background-color: #FAFAFA; /* Lighter background */
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px; /* Larger question text */
+            font-weight: 600;
+            color: var(--dark-heading);
+            border-bottom: 1px solid transparent; /* No initial border */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .faq-item.active .faq-question {
+            background-color: var(--orange-primary); /* Orange when active */
+            color: var(--white-text);
+            border-bottom-color: var(--orange-dark);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .faq-item.active .faq-question .arrow {
+            color: var(--white-text); /* White arrow when active */
+        }
+
+        .faq-question .arrow {
+            font-size: 22px; /* Larger arrow */
+            transition: transform 0.3s ease, color 0.3s ease;
+            color: var(--orange-primary); /* Orange arrow */
+        }
+
+        .faq-answer {
+            padding: 0 30px; /* Match question padding */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* Smooth transition */
+            background-color: var(--white-text); /* White background */
+            color: var(--dark-paragraph);
+            border-top: 1px solid var(--border-color); /* Separator line */
+        }
+
+        .faq-answer p {
+            padding: 20px 0; /* More vertical padding */
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* Increased max-height */
+            padding-bottom: 20px;
+            transition: max-height 0.5s ease-in, padding 0.5s ease-in;
+        }
+
+        .faq-item.active .faq-question .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Base state (hidden/off-screen) */
+section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Visible state (on-screen) */
+section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Footer Section css starts */
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        /* Your custom CSS is embedded here to maintain the exact styling from your original code */
+        ul {
+            margin: 0px;
+            padding: 0px;
+        }
+        .footer-section {
+            background: #ff5e14; /* Orange background */
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+        .footer-cta {
+            border-bottom: 1px solid #373636;
+        }
+        .single-cta i {
+            color: black;
+            font-size: 30px;
+            float: left;
+            margin-top: 8px;
+        }
+        .cta-text {
+            padding-left: 15px;
+            display: inline-block;
+        }
+        .cta-text h4 {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .cta-text span {
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+        /* Removed footer-pattern img CSS as it references a non-existent image and might interfere with layout */
+        .footer-logo {
+            margin-bottom: 30px;
+        }
+        .footer-logo img {
+            max-width: 100%;
+        }
+        .footer-text p {
+            margin-bottom: 14px;
+            font-size: 14px;
+            color: white;
+            line-height: 28px;
+        }
+        .footer-social-icon span {
+            color: black; /* Changed to black to match Image 1's "Follow us" text */
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 20px;
+        }
+        .footer-social-icon a {
+            color: #fff;
+            font-size: 16px;
+            margin-right: 15px;
+        }
+        .footer-social-icon i {
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            line-height: 38px;
+            border-radius: 50%;
+        }
+        .facebook-bg {
+            background: #3B5998;
+        }
+        .twitter-bg {
+            background: #55ACEE;
+        }
+        .google-bg {
+            background: #DD4B39;
+        }
+        .footer-widget-heading h3 {
+            color: black;
+            font-size: 24px;
+            font-weight: bolder;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .footer-widget-heading h3::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -15px;
+            height: 2px;
+            width: 50px;
+            background: black;
+        }
+        .footer-widget ul li {
+            display: inline-block;
+            width: 50%;
+            margin-bottom: 12px;
+        }
+        .footer-widget ul li a:hover {
+            color: black;
+        }
+        .footer-widget ul li a {
+            color: white;
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+        .subscribe-form {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem; /* Added Tailwind-like rounded corners */
+        }
+        .subscribe-form input {
+            width: 100%;
+            padding: 14px 28px;
+            background: white;
+            border: 1px solid white;
+            color: black; /* Changed input text color to black for visibility */
+            border-radius: 0.5rem 0 0 0.5rem;
+        }
+        .subscribe-form button {
+            position: absolute;
+            right: 0;
+            background: black;
+            padding: 13px 20px;
+            border: 3px solid black;
+            top: 0;
+            height: 100%;
+            border-radius: 0 0.5rem 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .subscribe-form button i {
+            color: #fff;
+            font-size: 22px;
+            transform: rotate(0deg); /* Removed rotation for a cleaner look */
+        }
+        .copyright-area {
+            background: black;
+           
+        }
+        .copyright-text p {
+            margin: 0;
+            font-size: 14px;
+            color: white;
+        }
+        .copyright-text p a {
+            color: white;
+        }
+        .copyright-text p a:hover {
+            color: #ff5e14;
+        }
+        .footer-menu li {
+            display: inline-block;
+            margin-left: 20px;
+        }
+        .footer-menu li:hover a {
+            color: #DD4B39;
+        }
+        .footer-menu li a {
+            font-size: 14px;
+            color: white;
+        }
+
+/* Footer Section css ends */
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 48px;
+            }
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            model-viewer {
+                height: 400px;
+            }
+            h2 {
+                font-size: 38px;
+            }
+            .container {
+                max-width: 768px;
+            }
+            .core-values-content {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .journey-content, .mission-content {
+                padding: 30px;
+            }
+                     .cityscape{
+    width: 100%;
+    height: 10px;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding-top: 30px;
+                padding-bottom: 60px;
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+            .hero-title {
+                font-size: 40px;
+            }
+            .hero-subtitle {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+            model-viewer {
+                height: 350px;
+                margin-top: 40px;
+            }
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+            h2 {
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .milestone-item, .value-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+            }
+            .milestone-item .icon, .value-item .icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            .milestone-item h4, .value-item h4 {
+                font-size: 18px;
+            }
+            .milestone-item p, .value-item p {
+                font-size: 15px;
+            }
+            .faq-question {
+                font-size: 16px;
+                padding: 18px 25px;
+            }
+            .faq-answer p {
+                font-size: 15px;
+            }
+            .section-icon { display: none; } /* Hide large icons on small screens */
+
+            .qa-main-content__title {
+    color: #ff5e14;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+    /* Typewriter effect properties */
+    display: block;
+    width: 25ch;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid #ff5e14;
+
+    /* Animations */
+    animation:
+        typing 3s steps(25, end) 1s forwards,
+        blink-caret .75s step-end infinite 4s;
+}
+
+#qa-search-input {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px 20px 12px 40px;
+    border: 3px solid #ff5e14;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    outline: 0;
+}
+
+        }
+                 .cityscape{
+    width: 100%;
+    height: 10px;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 575.98px) {
+       /* Whatsapp Button */
+    .whatsapp-float { right: 16px; bottom: 20px; }
+    .whatsapp-float img { width: 56px; height: 56px; }
+}
+
+        @media (max-width: 480px) {
+            .hero-section {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .hero-title {
+                font-size: 34px;
+            }
+            .hero-subtitle {
+                font-size: 14px;
+                max-width: 90%;
+            }
+            model-viewer {
+                height: 300px;
+                max-width: 100%;
+            }
+            .header-top .about-us {
+                font-size: 16px;
+            }
+            .header-top .back-arrow {
+                font-size: 24px;
+            }
+            h2 {
+                font-size: 28px;
+            }
+            .container {
+                padding: 20px 10px;
+            }
+            .journey-content, .mission-content {
+                padding: 25px;
+            }
+            .faq-question {
+                font-size: 15px;
+                padding: 15px 20px;
+            }
+
+            .cityscape{
+    width: 100%;
+    height: 10px;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+        }

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Salman Electronics</title>
+    <link rel="shortcut icon" href="SE Logo/SE favicon image.png" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a2e0e6b42c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <style>
+.Billing-Logo {
+    /* Ensures centering is reliable */
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px; /* Slightly increased top margin */
+    margin-bottom: 24px; /* Slightly increased bottom margin */
+}
+
+/* This targets the image and makes sure it doesn't break the container */
+.Billing-Logo img {
+    height: auto;
+}
+
+        .payment-option {
+/* ... (rest of the payment-option styles remain the same) ... */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .payment-option:hover {
+            border-color: #fb923c;
+            background-color: #fff7ed;
+        }
+        .payment-option.active {
+            border-color: #fb923c;
+            background-color: #fff7ed;
+            box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2);
+        }
+        
+        /* 🔥 LOCATION SUMMARY STYLING */
+        #delivery-location-summary-box {
+            background-color: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid #ff6600; 
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        #delivery-location-summary-box .status-icon {
+            font-weight: 600;
+            margin-right: 5px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #delivery-location-summary-box .area-name {
+            font-weight: bold;
+            color: #ff6600; 
+            font-size: 1.05rem;
+            display: block;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-orange-50 to-gray-100 text-gray-800 min-h-screen">
+
+ <div class="Billing-Logo">
+        <img class="max-w-xs sm:max-w-xs md:max-w-sm lg:max-w-sm xl:max-w-sm" 
+             src="SE Logo/SE BANNER LOGO.png" 
+             alt="Salman Electronics Logo">
+    </div>
+
+    <div class="max-w-6xl mx-auto mt-10 bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+        
+        <div class="p-8">
+            <h2 class="text-3xl font-bold text-orange-600 mb-6 flex items-center">
+                <i class="fa-solid fa-user-pen mr-3 text-orange-500"></i> Billing Details
+            </h2>
+            <form id="checkout-form" class="space-y-4">
+                
+                <input type="hidden" id="delivery-location-input" name="delivery_location">
+                <input type="hidden" id="customer-id-input" name="customer_id">
+                
+                <div><label class="block font-semibold mb-1">Full Name</label><input type="text" id="fullname" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none" /></div>
+                <div><label class="block font-semibold mb-1">Phone Number</label><input type="tel" id="phone" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none" /></div>
+                <div><label class="block font-semibold mb-1">Email Address</label><input type="email" id="email" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none" /></div>
+                <div><label class="block font-semibold mb-1">Address</label><textarea style="resize: none;" id="address" required rows="2" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"></textarea></div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-semibold mb-1">Nearby Place</label>
+                        <input type="text" id="nearby" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                    </div>
+                    
+                    <div>
+                        <label class="block font-semibold mb-1">Delivery Location</label>
+                        <div id="delivery-location-summary-box">
+                            <span id="checkout-delivery-location">Loading location...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-1">City</label>
+                    <select id="city" required class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                        <option value="" disabled selected>Select City</option>
+                        <option value="" disabled>We are currently available in these cities</option>
+
+                        <option>Karachi</option>
+                        
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-2 text-lg mt-3">Payment Method</label>
+                    <div class="space-y-3">
+                        
+                        <div id="payment-online" class="payment-option active" onclick="selectPayment('Online')">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-credit-card text-orange-600 text-xl"></i>
+                                <span class="font-semibold">Credit/Debit Card</span>
+                            </div>
+                            <i class="fa-solid fa-check-circle text-orange-600" id="check-online"></i>
+                        </div>
+                    </div>
+                    
+                    <div id="card-details-section" class="mt-4 p-4 border rounded-lg bg-gray-50 space-y-3">
+                        <p class="font-semibold text-gray-700">Card Information (Simulated)</p>
+                        <div>
+                            <label class="block text-sm mb-1">Card Number</label>
+                            <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none" required />
+                        </div>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="col-span-2">
+                                <label class="block text-sm mb-1">Expiry Date (MM/YY)</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm mb-1">CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="payment-cod" class="payment-option mt-3" onclick="selectPayment('Cash on Delivery')">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-truck-fast text-orange-600 text-xl"></i>
+                            <span class="font-semibold">Cash on Delivery <span class="text-gray-500 text-sm">(Rs 20 fee)</span></span>
+                        </div>
+                        <i class="fa-solid fa-check-circle text-orange-600 hidden" id="check-cod"></i>
+                    </div>
+                </div>
+                </form>
+        </div>
+
+        <div class="bg-gray-50 p-8">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-700">
+                <i class="fa-solid fa-bag-shopping text-orange-500 mr-2"></i> Order Summary
+            </h2>
+
+            <div id="checkout-items" class="space-y-4 max-h-72 overflow-y-auto border rounded-lg p-4 bg-white shadow-inner">
+                <p class="text-center text-gray-500">Loading items...</p>
+            </div>
+
+            <div class="border-t mt-4 pt-4 space-y-1 text-lg font-semibold text-gray-700">
+                <div class="flex justify-between">
+                    <span>Subtotal:</span>
+                    <span id="checkout-subtotal">Rs 0.00</span>
+                </div>
+
+                <div class="flex justify-between hidden" id="cod-line">
+                    <span>COD Fee:</span>
+                    <span id="cod-fee">Rs 20.00</span>
+                </div>
+
+                <div id="delivery-line" class="flex justify-between">
+                    <span>Delivery Fee:</span>
+                    <span id="delivery-fee">Rs 0.00</span>
+                </div>
+
+                <div class="flex justify-between text-xl font-bold text-gray-900 border-t pt-2">
+                    <span>Total:</span>
+                    <span id="checkout-total">Rs 0.00</span>
+                </div>
+            </div>
+
+            <button onclick="placeOrder()" class="mt-6 w-full py-3 bg-orange-600 text-white rounded-lg font-bold text-lg hover:bg-orange-700 transition duration-200 shadow-lg place-order-button">
+                Place Order
+            </button>
+        </div>
+    </div>
+
+ <script>
+    // Firebase Config
+    var firebaseConfig = {
+        apiKey: "AIzaSyAjPufUIt6k4WXt3R1vmTBBBcDvuU68Zv0",
+        authDomain: "salman-electronics-bea6f.firebaseapp.com",
+        databaseURL: "https://salman-electronics-bea6f-default-rtdb.firebaseio.com",
+        projectId: "salman-electronics-bea6f",
+        storageBucket: "salman-electronics-bea6f.firebasestorage.app",
+        messagingSenderId: "361411398595",
+        appId: "1:361411398595:web:0d27ae1b42ec08122f8b76"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+    // --- GLOBAL VARIABLES & ID LOGIC ---
+    let cartItems = [];
+    let subtotal = 0;
+    let selectedPayment = "Online"; 
+    const LOCATION_STORAGE_KEY = 'user_delivery_location';
+
+    function getOrCreateCustomerID() {
+        let customerId = localStorage.getItem('customer_unique_id');
+        if (!customerId) {
+            customerId = 'guest_checkout_' + Date.now() + Math.floor(Math.random() * 10000);
+            localStorage.setItem('customer_unique_id', customerId);
+        }
+        return customerId;
+    }
+    const CUSTOMER_ID = getOrCreateCustomerID();
+
+    // NEW HELPER FUNCTION: Formats a number as Pakistani Rupees with commas
+    const formatCurrency = (number) => {
+        return "Rs " + parseFloat(number).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
+    // Helper function to safely process item data and build HTML
+    const processItem = (item, itemId, container) => {
+        const quantity = parseInt(item.product_quantity) || 1;
+        const priceString = String(item.product_price || "Rs 0");
+        const numericUnitPrice = parseFloat(priceString.replace(/[^0-9.]/g, ""));
+        
+        const itemTotal = !isNaN(numericUnitPrice) ? (numericUnitPrice * quantity) : 0;
+        subtotal += itemTotal;
+
+        cartItems.push({ id: itemId, ...item, numeric_price: numericUnitPrice, quantity: quantity });
+
+        container.innerHTML += `
+            <div class="flex items-start justify-between border-b pb-2 bg-white p-3 rounded-lg shadow-sm">
+                <div class="flex items-center space-x-3">
+                    <img src="${item.product_image}" class="w-16 h-16 object-cover rounded-md border" alt="">
+                    <div>
+                        <h3 class="font-semibold">${item.product_title}</h3>
+                        <p class="text-gray-600">${item.product_price}</p>
+                        ${item.product_color ? `<p class="text-sm text-gray-500">Color: ${item.product_color}</p>` : ""}
+                        ${item.product_storage ? `<p class="text-sm text-gray-500">Storage: ${item.product_storage}</p>` : ""}
+                        ${item.product_quantity ? `<p class="text-sm text-gray-500">Qty: ${item.product_quantity}</p>` : ""}
+                    </div>
+                </div>
+                <div class="pt-1">
+                    <span class="font-bold text-lg">${formatCurrency(itemTotal)}</span>
+                </div>
+            </div>`;
+    };
+
+    // Load Data from Checkout Items (Customer's Private Cart Copy)
+    function loadCheckoutData(snapshot) {
+        const container = document.getElementById("checkout-items");
+        container.innerHTML = "";
+        cartItems = [];
+        subtotal = 0;
+        let hasItems = false;
+        
+        if (snapshot.exists()) {
+            snapshot.forEach((child) => {
+                // 🔥 Buy Now Check (single item)
+                if (child.key === 'single_buy_item' && child.val()) {
+                    processItem(child.val(), "temp_single_buy_id", container);
+                // Multi-Item Cart Check
+                } else if (typeof child.val() === 'object' && child.val() !== null) {
+                    processItem(child.val(), child.key, container);
+                }
+                hasItems = true;
+            });
+        }
+
+        if (!hasItems) {
+            container.innerHTML = `<p class="text-center text-gray-500 py-4">Your order summary is empty. Add items to cart first!</p>`;
+        }
+
+        updateTotals();
+    }
+
+    // Fetch items using the private customer ID
+    db.ref("checkout_items/" + CUSTOMER_ID).once("value")
+        .then(loadCheckoutData)
+        .catch(error => {
+            console.error("Error loading checkout data:", error);
+            document.getElementById("checkout-items").innerHTML = `<p class="text-center text-red-500 py-4">Error loading order summary.</p>`;
+        });
+
+
+    // Update Totals
+    function updateTotals() {
+        const city = document.getElementById("city")?.value || "";
+        const codFee = selectedPayment === "Cash on Delivery" ? 20 : 0;
+        
+        let deliveryFee = 0;
+        if (city === "Karachi") {
+            deliveryFee = 150;
+        } else if (city) {
+            deliveryFee = 500; 
+        }
+        
+        const total = subtotal + codFee + deliveryFee;
+
+        document.getElementById("checkout-subtotal").innerText = formatCurrency(subtotal);
+        document.getElementById("delivery-fee").innerText = formatCurrency(deliveryFee);
+        document.getElementById("checkout-total").innerText = formatCurrency(total);
+        
+        const codFeeDisplay = document.getElementById("cod-fee");
+        if (codFeeDisplay) codFeeDisplay.innerText = formatCurrency(codFee);
+
+        const codLine = document.getElementById("cod-line");
+        if (codLine) codLine.classList.toggle("hidden", selectedPayment !== "Cash on Delivery");
+    }
+
+    //  Select Payment Method
+    window.selectPayment = function(method) {
+        selectedPayment = method;
+        const onlineDiv = document.getElementById("payment-online");
+        const codDiv = document.getElementById("payment-cod");
+        const checkOnline = document.getElementById("check-online");
+        const checkCod = document.getElementById("check-cod");
+        const cardSection = document.getElementById("card-details-section");
+
+        if (method === "Online") {
+            onlineDiv.classList.add("active");
+            codDiv.classList.remove("active");
+            checkOnline.classList.remove("hidden");
+            checkCod.classList.add("hidden");
+            cardSection.classList.remove("hidden");
+        } else {
+            codDiv.classList.add("active");
+            onlineDiv.classList.remove("active");
+            checkCod.classList.remove("hidden");
+            checkOnline.classList.add("hidden");
+            cardSection.classList.add("hidden");
+        }
+        updateTotals();
+    }
+
+    // Handle Firebase User Creation and Email Verification
+    async function handleEmailVerification(email) {
+        const password = "tempPassword123";
+        try {
+            await auth.createUserWithEmailAndPassword(email, password);
+            await auth.currentUser.sendEmailVerification();
+            return true;
+        } catch (error) {
+            if (error.code === 'auth/email-already-in-use') {
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    await auth.currentUser.sendEmailVerification();
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+
+    // --- FINAL ORDER PLACEMENT FUNCTION ---
+    window.placeOrder = async function() {
+        // 1. Collect Billing Details
+        const name = document.getElementById("fullname").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const nearby = document.getElementById("nearby").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const locationSaved = document.getElementById("delivery-location-input")?.value || 'N/A';
+
+        // 2. Validation
+        if (!name || !phone || !email || !address || !nearby || !city) {
+            Swal.fire({ icon: "warning", title: "Missing Info", text: "Please fill all required Billing fields!", confirmButtonColor: "#f97316" });
+            return;
+        }
+        if (cartItems.length === 0 || subtotal === 0) {
+            Swal.fire({ icon: "warning", title: "Empty Order", text: "Your order summary is empty.", confirmButtonColor: "#f97316" });
+            return;
+        }
+        if (selectedPayment === "Online") {
+            const cardNumber = document.getElementById("card-number")?.value.trim();
+            const cardExpiry = document.getElementById("card-expiry")?.value.trim();
+            const cardCvv = document.getElementById("card-cvv")?.value.trim();
+            if (!cardNumber || cardNumber.length < 15 || !cardExpiry || cardExpiry.length < 4 || !cardCvv || cardCvv.length < 3) {
+                 Swal.fire({ icon: "error", title: "Invalid Card", text: "Please enter valid card details (simulated).", confirmButtonColor: "#f97316" });
+                 return;
+            }
+        }
+        
+        // 3. Totals
+        const codFee = selectedPayment === "Cash on Delivery" ? 20 : 0;
+        const deliveryFee = city === "Karachi" ? 150 : 500;
+        const total = subtotal + codFee + deliveryFee;
+
+        // 4. Structure Order Data
+        const orderItems = cartItems.map(item => {
+            const { numeric_price, id, ...rest } = item;
+            return rest;
+        });
+
+        const orderData = {
+            customer_id: CUSTOMER_ID,
+            customer: { name, phone, email, address, nearby, city, selected_area: locationSaved, payment: selectedPayment },
+            items: orderItems,
+            summary: {
+                subtotal: formatCurrency(subtotal),
+                cod_fee: formatCurrency(codFee),
+                delivery_fee: formatCurrency(deliveryFee),
+                total: formatCurrency(total),
+            },
+            status: "Pending",
+            timestamp: new Date().toLocaleString()
+        };
+
+        const emailVerified = await handleEmailVerification(email);
+
+        try {
+            await db.ref("orders").push(orderData); // Save the order
+
+            // 5. Clean up: Clear the user's private cart copy and regular cart
+            // This clears both multi-item and single-item entries.
+            await db.ref("checkout_items/" + CUSTOMER_ID).remove();
+            await db.ref("carts/" + CUSTOMER_ID).remove();
+
+            // 6. UI Reset and Success Message
+            document.getElementById("checkout-form").reset();
+            document.getElementById("checkout-items").innerHTML = `<p class="text-center text-gray-500 py-4">Order Placed!</p>`;
+            subtotal = 0;
+            updateTotals();
+
+            Swal.fire({
+                icon: "success",
+                title: "Order Placed Successfully!",
+                html: `Thank you for shopping! You will receive an Order Confirmation email or call soon.`,
+                confirmButtonColor: "#16a34a"
+            }).then(() => {
+                window.location.href = "./index.html"; 
+            });
+
+        } catch (error) {
+            console.error("Firebase write error:", error);
+            Swal.fire({ icon: "error", title: "Error", text: "Something went wrong! Could not place order.", confirmButtonColor: "#ef4444" });
+        }
+    }
+
+
+    // --- DOMContentLoaded for Location and Hidden Fields ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const locationDisplayElement = document.getElementById('checkout-delivery-location');
+        const deliveryInput = document.getElementById('delivery-location-input');
+        const customerIdInput = document.getElementById('customer-id-input');
+        
+        if (customerIdInput) customerIdInput.value = CUSTOMER_ID;
+
+        const savedLocation = localStorage.getItem(LOCATION_STORAGE_KEY);
+
+        // --- LOCATION UI LOGIC ---
+        if (locationDisplayElement) {
+            if (savedLocation) {
+                const [savedCity, savedArea] = savedLocation.split('|');
+
+                if (deliveryInput) deliveryInput.value = savedLocation; 
+                
+                locationDisplayElement.innerHTML = `
+                    <div class="status-icon" style="color: #10b981;">**Location Confirmed**</div>
+                    <span class="area-name">City: ${savedCity || 'Karachi'}</span>
+                    <span class="area-name">Area: ${savedArea}</span>
+                `;
+
+            } else {
+                // Location Missing UI
+                locationDisplayElement.innerHTML = `
+                    <div class="status-icon" style="color: #f59e0b;">⚠️ **Location Missing**</div>
+                    <p>Please select your area before placing the order.</p>
+                    <a href="index.html" style="color: #3b82f6; text-decoration: underline;">Go to Homepage to Select Area</a>
+                `;
+                document.querySelector('.place-order-button').disabled = true;
+            }
+        }
+        
+        // Set initial payment state and listener
+        document.getElementById("card-details-section").classList.remove("hidden"); // Default view for Online
+        
+        const citySelect = document.getElementById("city");
+        if (citySelect) citySelect.addEventListener("change", updateTotals);
+        updateTotals();
+    });
+    </script>
+
+</body>
+</html>

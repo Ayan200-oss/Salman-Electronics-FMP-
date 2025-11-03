@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+   <style>
+
+/* 🎨 Essential CSS to make the slides visible and responsive */
+
+.carousel-slide {
+    /* 1. Desktop Styles (applies to 768px and wider by default) */
+    
+    /* Set a wide aspect ratio height for desktop banners */
+    height:100%; /* <--- Set your desired DESKTOP height here (e.g., 600px) */
+    width: 100%;
+
+    /* 2. Background Image Properties (required for background-image to look correct) */
+    background-size: cover;          /* Ensures the image covers the entire slide area */
+    background-position: center center; /* Centers the image */
+    background-repeat: no-repeat;    /* Prevents the image from tiling */
+}
+
+/* 3. Mobile/Small Screen Styles (Taller aspect ratio) */
+@media (max-width: 767px) {
+    .carousel-slide {
+        /* Override the height for mobile/taller images */
+        height: 400px; /* <--- Set your desired MOBILE height here (e.g., 400px) */
+    }
+}
+
+/* Ensure the main carousel container also has a defined space, 
+   though the slides themselves should define the height. */
+.ecommerce-carousel {
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <div class="ecommerce-carousel">
+
+        <div class="carousel-slide" 
+             data-desktop-image="Frontend images/banners-01_1920x.png" 
+             data-mobile-image="Frontend images/SE Mobile Banner 1.png">
+            </div>
+
+        <div class="carousel-slide" 
+             data-desktop-image="images/desktop-wide-slide-2.jpg" 
+             data-mobile-image="images/mobile-tall-slide-2.jpg">
+            </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            
+            // Function to check screen size and set the correct image as background
+            function setResponsiveBackground() {
+                // Check if the current window width is 767px or less
+                const isMobile = $(window).width() <= 767;
+
+                $('.carousel-slide').each(function() {
+                    const $slide = $(this);
+                    const mobileImg = $slide.data('mobile-image');
+                    const desktopImg = $slide.data('desktop-image');
+                    
+                    // Choose the correct URL
+                    const imageUrl = isMobile ? mobileImg : desktopImg;
+                    
+                    // Apply the image as a background
+                    $slide.css('background-image', `url('${imageUrl}')`);
+                });
+            }
+
+            // Initialize Slick Carousel
+            $('.ecommerce-carousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 800,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 4500,
+                arrows: true,
+                pauseOnHover: true
+            });
+            
+            // 1. Run on initial load
+            setResponsiveBackground();
+
+            // 2. Run whenever the window is resized
+            $(window).on('resize', function() {
+                // Debounce for performance
+                clearTimeout(window.resizeTimer);
+                window.resizeTimer = setTimeout(setResponsiveBackground, 100);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Salman Electronics</title>
+
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="shortcut icon" href="../SE Logo/SE favicon image.png" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+    <link rel="shortcut icon" href="../SE Logo/SE favicon image.png" type="image/x-icon">
+    
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <!-- Load Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Configure Tailwind for custom styles and Inter font -->
+
+  
+       <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome Icons -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Configure Tailwind for custom styles and Inter font -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</script>
+    <!-- Load Lucide Icons for high-quality SVG icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  // This function call is CRITICAL. It tells Lucide to find all 
+  // elements with the 'data-lucide' attribute and draw the icon.
+  lucide.createIcons();
+</script>
+
+<script>
+
+    tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'se-orange': '#ff5e14', /* Your custom orange color */
+                        'se-green': '#28a745', /* Example green for discounts */
+                        'se-light-gray': '#f2f2f2', /* Light background for cards */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-database.js"></script>
+
+        <link rel="stylesheet" href="Conatct.css">
+</head>
+<body>
+
+
+    <!-- Spinner Code Start -->
+
+   <div class="spinner-wrapper" id="spinner">
+        <div class="spinner">
+            <div class="spinner-logo">SE</div>
+        </div>
+    </div>
+    <!-- Spinner Code Ends -->
+
+
+
+ <!-- Marquee code Start -->
+<marquee style="background-color:#fa5306 ; color: white; font-size: 20px;" behavior="scroll" direction="left" scrollamount="10">We guarantee a response within 24 hours. Submit your query below!</marquee>
+
+    <!-- Marquee code ends -->
+
+
+
+<!-- Navbar Code Start-->
+
+<div class="qa-header">
+    <div class="qa-logo">
+        <a href="../index.html"><img src="../SE Logo/SE NAVBAR LOGO.png" alt="logo"></a>
+    </div>
+    <div class="qa-nav">
+        <div class="qa-nav__toggle" onclick="Show()">
+             <i></i>
+            <i style="width: 25px;"></i>
+            <i></i>
+        </div>
+
+        <!-- ID changed to qa-nav-list-id -->
+        <ul id="qa-nav-list-id" class="qa-nav__list">
+            <li class="qa-nav__close"><span onclick="Hide()">×</span></li>
+            <li class="qa-nav__item"><a href="../index.html">Home</a></li>
+            <li class="qa-nav__item"><a href="../About/about.html">About</a></li>
+            <li class="qa-nav__item"><a href="../Product Page/product.html">Products</a></li>
+            <li style="background-color: #ff5e14; border-radius: 15px;" class="qa-nav__item"><a style="color: white;" href="../Contact/Contact.html">Contact</a></li>
+
+        </ul>
+    </div>
+</div>
+
+
+<!-- Utility Code Start-->
+
+<div  class="second-nav text-gray-800 p-4">
+<!-- Secondary Utility Navigation Section (The desired component) -->
+    <header id="utility-bar" class="bg-white shadow-xl rounded-xl p-4 md:p-6 border-b-4 border-t-4 border-se-orange ">
+        
+        <!-- Layout: justify-end pushes all content to the right -->
+        <div class="flex flex-col md:flex-row items-center justify-end space-y-4 md:space-y-0 md:space-x-6">
+
+            <!-- 1. LEFT SIDE: (Empty Space) -->
+
+            <!-- 2. RIGHT SIDE: Icons and Buttons Wrapper -->
+            <!-- This container holds all the utility elements and is pushed to the right -->
+            <div class="flex items-center justify-between md:justify-end w-full md:w-auto space-x-6">
+                
+                <!-- Utility Icons (Wishlist, Cart) -->
+                <div class="flex items-center space-x-6">
+                    
+
+                    <!-- Cart Icon with Static Counter -->
+                    <button id="cart-button" class="relative text-gray-600 hover:text-se-orange transition duration-150 focus:outline-none">
+    <i style="font-size: 24px;" class="fa-solid fa-cart-shopping"></i>
+    <span class="sr-only">View Cart</span>
+    <span class="counter absolute -top-2 -right-2 flex items-center justify-center 
+                                h-5 w-5 rounded-full bg-se-orange text-white text-xs font-bold 
+                                transition duration-300 transform scale-100">
+        0
+    </span>
+</button>
+                </div>
+                    <!-- Login/Sign Up Buttons (Primary Action) -->
+               <div class="flex items-start space-x-4"> 
+    <a href="../Form/login.html">
+        <button class="login-button py-3 px-1 rounded-lg text-gray-700 transition duration-150">
+            Log In
+        </button>
+    </a>
+    
+    <a href="../Form/form.html">
+        <button class="signup-button py-3 px-1 rounded-lg transition duration-150 shadow-md">
+            Sign Up
+        </button>
+    </a>
+</div>
+
+            </div>
+
+        </div>
+    </header>
+
+    </div>
+
+<!-- Utility Code end-->
+
+
+<!-- Utility bar slider Code Start-->
+
+
+              <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99998] hidden" onclick="toggleCartSlider()"></div>
+
+<div id="cart-slider" class="fixed top-0 right-0 w-80 md:w-96 h-full bg-white shadow-2xl z-[99999] 
+                              transform translate-x-full transition-transform duration-300 ease-in-out">
+    
+    <div class="p-4 border-b flex justify-between items-center">
+        <h2  class="cart-counter text-xl font-semibold text-gray-800">Your Cart (0 Items)</h2>
+        <button onclick="toggleCartSlider()" class="text-gray-500 hover:text-gray-900 p-2 focus:outline-none">
+           <i style="font-size: 30px;" class="fa-solid fa-xmark"></i>
+            <span class="sr-only">Close Cart</span>
+        </button>
+    </div>
+
+    <div class="p-4 space-y-4 h-full overflow-y-auto pb-32">
+<div class="scroll-anim overflow-auto">
+    <table id="trow"></table>
+    </div>
+</div>
+    
+  <div class="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
+  <div class="flex justify-between font-bold text-lg mb-3">
+      <span>Subtotal:</span>
+      <span id="cart-subtotal">Rs 0.00</span>
+  </div>
+
+  <button id="checkout-button" onclick="handleCheckout()" 
+    class="w-full py-3 bg-orange-600 text-white font-bold rounded-lg transition duration-150">
+      Proceed to Checkout
+  </button>
+
+  <!-- Custom alert box -->
+  <div id="cart-alert" class="hidden text-center mt-3 text-red-600 font-semibold bg-red-100 border border-red-400 rounded-lg p-2">
+    Please add an item first!
+  </div>
+</div>
+
+
+</div>
+
+<!-- Utility bar slider code ends-->
+
+
+
+<!-- Navbar Code Ends-->
+
+
+<br><br><br>
+
+<div class="qa-main-content">
+    <h1 class="qa-main-content__title">Search Your Desired Phone...</h2>
+    <!-- ID changed to qa-search-input -->
+    <input type="text" id="qa-search-input" onkeyup="myFunction()" title="Type in a name">
+
+     <!-- ID changed to qa-search-list -->
+       <ul id="qa-search-list">
+             <li><a href="../product/s25ultra(12gb-1tb).html"> <img class="product-img" src="../Product imges/samsung-galaxy-s25-ultra-pakista.png" alt="Samsung Galaxy S25 Ultra (12GB-1TB)"> Samsung Galaxy S25 Ultra (12GB-1TB)</a></li>
+             <li><a href="../product/S25 FE.html"> <img class="product-img" src="../Product imges/samsung-galaxy-s25-fe-pakistan-p.webp" alt="Samsung Galaxy S24 FE"> Samsung Galaxy S25 FE</a></li>
+             <li><a href="../product/Technospark30pro.html"> <img class="product-img" src="../Product imges/tecno-spark-30-pro-pakistan-pric.webp" alt="Tecno SPARK 30 Pro"> Tecno SPARK 30 Pro </a></li>
+             <li><a href="../product/A365G.html"> <img class="product-img" src="../Product imges/samsung-galaxy-a36-5g-pakistan-p.webp" alt="Samsung Galaxy A36 5G"> Samsung Galaxy A36 5G</a></li>
+             <li><a href="../product/xiaomipococ75.html"> <img class="product-img" src="../Product imges/Xiaomi-Poco-C75-128GB images.webp" alt="Xiaomi Poco C75"> Xiaomi Poco C75</a></li>
+             <li><a href="../product/S25ultra.html"> <img class="product-img" src="../Product imges/samsung-galaxy-s25-ultra-pakista.png" alt="Samsung Galaxy S25 Ultra"> Samsung Galaxy S25 Ultra</a></li>
+             <li><a href="../product/HMDBarbie.html"> <img class="product-img" src="../Product imges/hmd-barbie-pakistan-priceoye-yr1.webp" alt="HMD Barbie"> HMD Barbie</a></li>
+             <li><a href="../product/Nothing Phone 3A.html"> <img class="product-img" src="../Product imges/nothing-phone-3a-blue-pakistan-priceo.webp" alt="Nothing Phone 3A">Nothing Phone 3A</a></li>
+             <li><a href="../product/Oppo A3x.html"> <img class="product-img" src="../Product imges/oppo-a3x-ocean blue-pakistan-priceoye-r7zfx.webp" alt=">Oppo A3x">Oppo A3x</a></li>
+             <li><a href="../product/Infinix Smart 10 Plus.html"> <img class="product-img" src="../Product imges/infinix-smart-10-plus-Iris Blue-pakistan-p.webp" alt="Infinix Smart 10 Plus">Infinix Smart 10 Plus</a></li>
+             <li><a href="../product/Nothing Phone 3A Pro.html"> <img class="product-img" src="../Product imges/nothing-phone-3a-pro-black-pakistan-pr.webp" alt="Nothing Phone 3A Pro">Nothing Phone 3A Pro</a></li>
+             <li><a href="../product/Infinix Hot 60 Pro Plus.html"> <img class="product-img" src="../Product imges/infinix-hot-60-pro-plus-mistyVoilet-pakistan.webp" alt="Infinix Hot 60 Pro Plus">Infinix Hot 60 Pro Plus</a></li>
+             <li><a href="../product/Iphone 17 Pro Max.html"> <img class="product-img" src="../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp" alt="Iphone 17 Pro Max">Iphone 17 Pro Max</a></li>
+             <li><a href="../product/Vivo Y29.html"> <img class="product-img" src="../Product imges/vivo-y29-Noble Brown-pakistan-priceoye-2233y.webp" alt="Vivo Y29">Vivo Y29</a></li>
+             <li><a href="../product/Apple Iphone 17 Pro.html"> <img class="product-img" src="../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp" alt="Apple Iphone 17 Pro">Apple Iphone 17 Pro</a></li>
+             <li><a href="../product/Vivo X Fold 5.html"> <img class="product-img" src="../Product imges/vivo-x-fold-5-Titaniumgrey-pakistan-priceoye.webp" alt="Vivo X Fold 5">Vivo X Fold 5</a></li>
+         </ul>
+</div>
+
+
+     <!-- WhatsApp Floating Button code Start -->
+<a
+  href="https://wa.me/03343116060"  
+  class="whatsapp-float"
+  target="_blank"
+  aria-label="Chat on WhatsApp"
+> 
+<!-- Replace with your number -->
+  <img
+    src="https://img.icons8.com/color/96/000000/whatsapp--v1.png"
+    alt="WhatsApp"
+  />
+</a>
+
+    <!-- WhatsApp Floating Button code ends -->
+
+
+
+    <main>
+        
+
+        <hr class="separator-light">
+
+       <section class="contact-details-section animate-on-scroll">
+    <section class="contact-details-section animate-on-scroll">
+    <h1 style="text-align: center; font-size: 30px; font-family: sans-serif; font-weight: bold;" class="highlighted-text">Get in touch</h1>
+    <br><br>
+    
+    <div class="details-container">
+        <div class="general-info animate-on-scroll">
+            <h2 class="General">General Information</h2>
+            <p>Please get in touch with us at 033-431-160-60 and we'll take it from here.</p>
+            <div class="contact-line animate-on-scroll">
+                <i class="fas fa-phone-alt"></i>
+                <span>033-431-160-60</span>
+            </div>
+            <div class="contact-line animate-on-scroll" >
+                <i class="fas fa-envelope"></i>
+                <span>salmanelectronics@gmail.com</span>
+            </div>
+        </div>
+
+        <div class="location-details-cards animate-on-scroll"> 
+            <h2 style="text-align: center; font-size: 1.3rem;  font-weight: 600;">Our Locations</h2>
+            <div class="location-cards-container">
+                <div class="location-card office animate-on-scroll">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <strong>1 Shop & Expanding</strong>
+                </div>
+                <div class="location-card warehouse animate-on-scroll">
+                    <i class="fas fa-warehouse"></i>
+                    <strong>Warehouses</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <br><br><br>
+<div class="Contact-Container">
+    <div class="Contact-Form">
+        <section class="hero-text animate-on-scroll">
+            <h1 style="color: #ff5e14; width: 100%; ">Got any Questions? We'd love to hear.</h1>
+            <p style="color: black; width: 100%;">Whether you're curious about our service, your order, status, or refunds we're ready to answer any and all questions</p>
+        </section>
+
+        <div class="form-container animate-on-scroll">
+            <div class="form-card  animate-on-scroll">
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                <input class="hero-text animate-on-scroll" type="hidden" name="access_key" value="6f3aec74-99fb-4e50-a5e0-8b62ca6b4b2e">
+
+                    <div class="form-group">
+                        <label style="color: #ff5e14;" class="hero-text animate-on-scroll" for="name">Your Name</label>
+                        <input class="hero-text animate-on-scroll" type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color: #ff5e14;" class="hero-text animate-on-scroll" for="email">Email Address</label>
+                        <input class="hero-text animate-on-scroll" type="email" id="email" name="email" required placeholder="e.g., yourname@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color: #ff5e14;" class="hero-text animate-on-scroll" for="message">Your Message</label>
+                        <textarea style="resize: none;" class="hero-text animate-on-scroll" id="message" name="message" rows="5" required placeholder="Tell us how we can help..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <div class="our-locations map-section"> 
+        <h1 style="text-align: center; font-size: 30px; font-family: sans-serif; font-weight: bold;">Our Location</h1>
+        <iframe style="box-shadow: 8px 8px 19px black; width: 100%; justify-content: center;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2175.944691318644!2d67.03280407778492!3d24.82715233330093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33d6193e2941d%3A0x5566bbb0e354e0a3!2sSalman%20Electronics!5e1!3m2!1sen!2s!4v1760241791439!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</section>
+
+    </main>
+
+    <!-- UPDATED: Bottom Blue Footer -->
+    <footer class="bottom-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <!-- Removed inline styles from image for responsiveness -->
+                <img src="../SE Logo/SE BANNER LOGO.png" alt="SE BANNER LOGO">
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-google"></i></a>
+            </div>
+        </div>
+    </footer>
+
+
+
+<script>
+// ✅ Your Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyAjPufUIt6k4WXt3R1vmTBBBcDvuU68Zv0",
+    authDomain: "salman-electronics-bea6f.firebaseapp.com",
+    databaseURL: "https://salman-electronics-bea6f-default-rtdb.firebaseio.com",
+    projectId: "salman-electronics-bea6f",
+    storageBucket: "salman-electronics-bea6f.firebasestorage.app",
+    messagingSenderId: "361411398595",
+    appId: "1:361411398595:web:0d27ae1b42ec08122f8b76"
+};
+
+// Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Save form data to Firebase before sending to Web3Forms
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      const newMessageRef = database.ref("contact-Form").push();
+      newMessageRef.set({
+        name: name,
+        email: email,
+        message: message,
+        timestamp: new Date().toISOString()
+      });
+      // ✅ No alert — Web3Forms will handle success popup
+    });
+
+</script>
+
+       <script>
+
+      // Add to cart code start
+
+// --- Configuration & Initialization ---
+    const CART_STORAGE_KEY = 'cartItemCount';
+    
+    // CRITICAL: Load the current cart count from Local Storage
+    let cartItemCount = parseInt(localStorage.getItem(CART_STORAGE_KEY) || '0', 10);
+
+    // --- Element Getters ---
+    const cartButton = document.getElementById('cart-button');
+    const cartSlider = document.getElementById('cart-slider');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const checkoutButton = document.getElementById('checkout-button'); // The new element
+
+    
+    // --- Slider Toggling Function (Your original code) ---
+    function toggleCartSlider() {
+        if (!cartSlider || !cartOverlay) return; 
+
+        const isHidden = cartSlider.classList.contains('translate-x-full');
+
+        if (isHidden) {
+            cartSlider.classList.remove('translate-x-full');
+            cartOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            cartSlider.classList.add('translate-x-full');
+            cartOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+
+
+
+    // --- Checkout Logic (The function you need) ---
+    /**
+     * Checks cart count and either alerts or navigates.
+     */
+   function handleCheckout(event) {
+    event.preventDefault(); 
+    
+    // Ensure the cartItemCount is loaded (assuming your previous script is running)
+    var counter = document.getElementById("counter").innerText;
+
+    if (counter === 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...can't proceed to checkout",
+            text: "Please add an item to your cart before proceeding to checkout",
+            
+            // *** FIX: ADD THIS CUSTOM CLASS PROPERTY ***
+            customClass: {
+                // Ensure the SweetAlert container has a Z-index higher than your cart slider (99999)
+                container: 'sweet-alert-top-zindex' 
+            }
+        });
+    } else {
+        window.location.href = '../cheak.html'; 
+    }
+}
+
+    // --- Event Listeners ---
+    
+    // 1. Open/Close Slider
+    if (cartButton) {
+        cartButton.addEventListener('click', toggleCartSlider);
+    }
+
+    // 2. Checkout Logic
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', handleCheckout);
+    }
+    
+    // 3. Optional: Close on Escape Key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && cartSlider && !cartSlider.classList.contains('translate-x-full')) {
+            toggleCartSlider();
+        }
+    });
+    </script>
+
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+      <script>
+      lucide.createIcons();
+    </script>
+
+    <script src="../ATC.js"></script>
+
+
+
+<script src="Conatct.js"></script>
+</body>
+</html>

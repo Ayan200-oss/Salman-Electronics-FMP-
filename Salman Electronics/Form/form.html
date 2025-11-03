@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../SE Logo/SE favicon image.png"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <title>Salman Electronics - Signup</title>
+    <style>
+      /* === CSS Utility Classes === */
+      .hidden {
+        display: none !important;
+      }
+
+      /* === Message Box Styles (Replacing alert()) === */
+      #message-box {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        z-index: 10000;
+        transition: all 0.5s ease-in-out;
+        opacity: 0;
+        visibility: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 90vw;
+        text-align: center;
+      }
+      .msg-success {
+        background-color: #10b981; /* Emerald green */
+      }
+      .msg-error {
+        background-color: #ef4444; /* Red */
+      }
+
+      /* --- 1. SPINNER STYLES starts (Kept for initial load simulation) --- */
+      .spinner-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f9fafb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s ease-out, visibility 0.5s linear 0.5s;
+      }
+
+      .spinner-wrapper.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .spinner {
+        --size-of-spinner: 60px;
+        --spinner-border-width: 5px;
+        --spinner-color: #ff5e14;
+        --speed-of-animation: 3s;
+        width: var(--size-of-spinner);
+        height: var(--size-of-spinner);
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .spinner::after {
+        content: "";
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        inset: 0;
+        border: var(--spinner-border-width) solid var(--spinner-color);
+        border-left-color: transparent;
+        border-right-color: transparent;
+        animation: spinny var(--speed-of-animation) linear infinite;
+      }
+
+      .spinner-logo {
+        position: absolute;
+        z-index: 10;
+        transform: rotate(0deg);
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #ff5e14;
+      }
+
+      @keyframes spinny {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* === Page Styles === */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background-color: #f9fafb;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .signup-container {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 40px 30px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 0 15px #ff5e14;
+        text-align: center;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.5s ease, transform 0.8s ease;
+      }
+
+      .signup-container.show {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .logo-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 16px;
+        object-fit: contain;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        color: black;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-weight: bold;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      /* Updated input attributes for easier JS access */
+      input[type="text"]#fullName,
+      input[type="email"]#email,
+      input[type="password"]#password,
+      input[type="password"]#confirmPassword {
+        padding: 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background: #f3f4f6;
+        color: #111827;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.3s;
+      }
+
+      input::placeholder {
+        color: black;
+        transition: color 0.3s ease;
+      }
+
+      input:focus::placeholder {
+        color: #ffffff;
+      }
+
+      input {
+        padding: 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background: #f3f4f6;
+        color: #111827;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.3s;
+      }
+
+      input:focus {
+        background: #ff5e14;
+        color: #ffffff;
+        box-shadow: 0 0 5px #ff5e14;
+      }
+
+      button {
+        background-color: #ff5e14;
+        border: none;
+        border-radius: 8px;
+        color: #ffffff;
+        padding: 12px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+      }
+
+      button:hover {
+        transform: scale(1.03);
+        background-color: black;
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+      }
+      
+      button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .options {
+        margin-top: 15px;
+        font-size: 0.9rem;
+      }
+
+      .options a {
+        color: #ff5e14;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+
+      .options a:hover {
+        text-decoration: underline;
+      }
+
+      .instruction-text {
+        color: black;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+      }
+
+      .otp-input {
+        text-align: center;
+        letter-spacing: 5px;
+      }
+
+      @media (max-width: 480px) {
+        .signup-container {
+          padding: 30px 20px;
+        }
+
+        .logo-image {
+          width: 60px;
+          height: 60px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="spinner-wrapper" id="spinner">
+      <div class="spinner">
+        <div class="spinner-logo">SE</div>
+      </div>
+    </div>
+
+    <div class="signup-container" id="authCard">
+      <div class="logo">
+        <a href="../index.html">
+          <img
+            src="../SE Logo/SE favicon image.png"
+            alt="Salman Electronics Logo"
+            class="logo-image"
+          />
+        </a>
+      </div>
+      <h1>
+        <span style="color: #ff5e14">S</span>alman
+        <span style="color: #ff5e14">E</span>lectronics
+      </h1>
+
+      <div id="signup-content">
+        <form onsubmit="handleAuthAction(event)">
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Full Name"
+            required
+            aria-label="Full Name"
+          />
+          <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            required
+            aria-label="Email Address"
+          />
+          <input
+            type="password"
+            id="password"
+            placeholder="Create Password"
+            required
+            aria-label="Create Password"
+          />
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            required
+            aria-label="Confirm Password"
+          />
+          <button type="submit">Sign Up</button>
+        </form>
+        <div class="options">
+          <span style="color: black"> Already have an account? </span>
+          <a href="login.html">Log In</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="message-box"></div>
+
+  <script>
+  // 🔥 Firebase Configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAjPufUIt6k4WXt3R1vmTBBBcDvuU68Zv0",
+    authDomain: "salman-electronics-bea6f.firebaseapp.com",
+    databaseURL: "https://salman-electronics-bea6f-default-rtdb.firebaseio.com",
+    projectId: "salman-electronics-bea6f",
+    storageBucket: "salman-electronics-bea6f.firebasestorage.app",
+    messagingSenderId: "361411398595",
+    appId: "1:361411398595:web:0d27ae1b42ec08122f8b76"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const database = firebase.database();
+
+ 
+  function showMessage(message, type = "success") {
+    const box = document.getElementById("message-box");
+    box.textContent = message;
+    box.className = "";
+    box.classList.add(type === "success" ? "msg-success" : "msg-error");
+    box.style.opacity = 1;
+    box.style.visibility = "visible";
+
+    setTimeout(() => {
+      box.style.opacity = 0;
+      box.style.visibility = "hidden";
+    }, 3500);
+  }
+
+  //Signup & Database Save 
+  async function handleAuthAction(event) {
+    event.preventDefault();
+    const form = event.target;
+
+    const fullName = form.querySelector('#fullName').value.trim();
+    const email = form.querySelector('#email').value.trim();
+    const password = form.querySelector('#password').value;
+    const confirmPassword = form.querySelector('#confirmPassword').value;
+
+    if (password !== confirmPassword) {
+      showMessage("Passwords do not match.", "error");
+      return;
+    }
+
+    if (password.length < 6) {
+      showMessage("Password must be at least 6 characters long.", "error");
+      return;
+    }
+
+    const button = form.querySelector("button");
+    button.disabled = true;
+    button.textContent = "Signing Up...";
+
+    try {
+      //Create user in Firebase Authentication
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+
+      // Update display name
+      await user.updateProfile({ displayName: fullName });
+
+      // Save user details to Realtime Database
+      await database.ref('users/' + user.uid).set({
+        fullName: fullName,
+        email: email,
+        uid: user.uid,
+        createdAt: new Date().toLocaleDateString()
+      });
+
+      // Send verification email
+      await user.sendEmailVerification();
+
+      // Success message
+      showMessage(
+        `Account created successfully! A verification email has been sent to ${email} inbox or spam(Report It As Not Spam).`,
+        "success"
+      );
+
+      form.reset();
+
+      // Redirect to login page after delay
+      setTimeout(() => {
+        window.location.href = "./login.html";
+      }, 3000);
+
+    } catch (error) {
+      console.error("Firebase Sign Up Error:", error);
+      let errorMessage = "An unknown error occurred during sign up.";
+
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = "This email is already in use.";
+          break;
+        case 'auth/invalid-email':
+          errorMessage = "Invalid email address.";
+          break;
+        case 'auth/weak-password':
+          errorMessage = "Password is too weak.";
+          break;
+        default:
+          errorMessage = error.message.replace('Firebase: ', '');
+      }
+
+      showMessage(errorMessage, "error");
+
+    } finally {
+      button.disabled = false;
+      button.textContent = "Sign Up";
+    }
+  }
+
+  // --- Initial Page Loader ---
+  window.addEventListener("load", () => {
+    const spinner = document.getElementById("spinner");
+    const formCard = document.getElementById("authCard");
+
+    setTimeout(() => {
+      spinner.classList.add("hidden");
+      formCard.classList.add("show");
+    }, 1000);
+  });
+</script>
+  </body>
+</html>

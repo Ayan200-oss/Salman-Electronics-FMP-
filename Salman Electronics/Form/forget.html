@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../SE Logo/SE favicon image.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"> 
+    <title>Salman Electronics - Reset Password</title>
+    <style>
+        /* === CSS Utility Classes === */
+        .hidden {
+            display: none !important;
+        }
+
+        /* === Message Box Styles (Replacing alert()) === */
+        #message-box {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            z-index: 10000;
+            transition: all 0.5s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-width: 90vw;
+            text-align: center;
+        }
+        .msg-success {
+            background-color: #10B981; /* Emerald green */
+        }
+        .msg-error {
+            background-color: #EF4444; /* Red */
+        }
+        
+        /* --- 1. SPINNER STYLES starts (Kept for initial load simulation) --- */
+        .spinner-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F9FAFB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1; 
+            transition: opacity 0.5s ease-out, visibility 0.5s linear 0.5s;
+        }
+
+        .spinner-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            --size-of-spinner: 60px;
+            --spinner-border-width: 5px;
+            --spinner-color: #ff5e14;
+            --speed-of-animation: 3s;
+            width: var(--size-of-spinner);
+            height: var(--size-of-spinner);
+            border-radius: 50%;
+            position: relative; 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spinner::after {
+            content: "";
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            inset: 0;
+            border: var(--spinner-border-width) solid var(--spinner-color);
+            border-left-color: transparent;
+            border-right-color: transparent;
+            animation: spinny var(--speed-of-animation) linear infinite;
+        }
+        
+        .spinner-logo {
+            position: absolute;
+            z-index: 10;
+            transform: rotate(0deg);
+            text-align: center;
+            font-size: 1.2em; 
+            font-weight: bold; 
+            color: #ff5e14;
+        }
+
+        @keyframes spinny {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* === Page Styles === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif; 
+        }
+
+        body {
+            background-color: #F9FAFB;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background:#FFFFFF;
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 15px #ff5e14 ;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease, transform 0.8s ease;
+        }
+
+        .signup-container.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo-image {
+            width: 80px; 
+            height: 80px;
+            border-radius: 16px; 
+            object-fit: contain;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color:black;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input::placeholder {
+            color: black; 
+            transition: color 0.3s ease;
+        }
+
+        input:focus::placeholder {
+            color: #FFFFFF; 
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background: #F3F4F6;
+            color: #111827; 
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            background: #ff5e14; 
+            color: #FFFFFF;
+            box-shadow: 0 0 5px #ff5e14;
+        }
+
+
+        button {
+            background-color: #ff5e14;
+            border: none;
+            border-radius: 8px;
+            color:#FFFFFF;
+            padding: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.03);
+            background-color: black;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+        }
+
+        .options {
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .options a {
+            color: #ff5e14;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .options a:hover {
+            text-decoration: underline;
+        }
+        
+        .instruction-text {
+            color: black; 
+            margin-bottom: 20px; 
+            font-size: 0.95rem;
+        }
+        
+        .otp-input {
+            text-align: center;
+            letter-spacing: 5px;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 30px 20px;
+            }
+
+            .logo-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="spinner-wrapper" id="spinner">
+        <div class="spinner">
+            <div class="spinner-logo">SE</div>
+        </div>
+    </div>
+
+
+    <div class="signup-container" id="authCard">
+        
+        <div class="logo">
+            <a href="../index.html">
+            <img src="../SE Logo/SE favicon image.png" alt="Salman Electronics Logo" class="logo-image">
+        </a>
+        </div>
+        <h1> <span style="color: #ff5e14;">S</span>alman <span style="color: #ff5e14;">E</span>lectronics</h1>
+
+        <div id="forgot-password-content">
+            <p class="instruction-text">
+                Enter your email address to receive a simulated One-Time Password (OTP) to reset your password.
+            </p>
+            <form onsubmit="handleForgotEmailSubmit(event)">
+                <input type="email" id="forgot-email-input" placeholder="Email Address" required aria-label="Email Address for password reset"/>
+                <button type="submit" id="forgot-button">Send OTP</button>
+            </form>
+            <div class="options">
+                <a href="login.html" style="color: #ff5e14; font-weight: 600; margin-top: 10px; display: block;">
+                    &larr; Back to Log In
+                </a>
+            </div>
+        </div>
+
+        <div id="otp-verification-content" class="hidden">
+            <p class="instruction-text" id="otp-instruction">
+                A 6-digit OTP has been sent to your email. Please check your inbox and enter the code below.
+            </p>
+            <form onsubmit="handleOtpVerification(event)">
+                <input type="text" pattern="\d{6}" maxlength="6" class="otp-input" placeholder="Enter 6-digit OTP (e.g., 123456)" required aria-label="One-Time Password"/>
+                
+                <input type="password" id="new-password" placeholder="New Password" required aria-label="New Password"/>
+                <input type="password" id="confirm-new-password" placeholder="Confirm New Password" required aria-label="Confirm New Password"/>
+                
+                <button type="submit" id="verify-button">Verify & Reset Password</button>
+            </form>
+            <div class="options">
+                <a href="#" style="color: #ff5e14; font-weight: 600; margin-top: 10px; display: block;" onclick="showMessage('Simulated OTP resent successfully!', 'success')">
+                    Resend Code
+                </a>
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="message-box"></div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script>
+  // 🔥 Firebase Configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAjPufUIt6k4WXt3R1vmTBBBcDvuU68Zv0",
+    authDomain: "salman-electronics-bea6f.firebaseapp.com",
+    projectId: "salman-electronics-bea6f",
+    databaseURL: "https://salman-electronics-bea6f-default-rtdb.firebaseio.com",
+    storageBucket: "salman-electronics-bea6f.firebasestorage.app",
+    messagingSenderId: "361411398595",
+    appId: "1:361411398595:web:0d27ae1b42ec08122f8b76"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // === Utility Message Box ===
+  function showMessage(message, type = "success") {
+    const box = document.getElementById("message-box");
+    box.textContent = message;
+    box.className = "";
+    box.classList.add(type === "success" ? "msg-success" : "msg-error");
+    box.style.opacity = 1;
+    box.style.visibility = "visible";
+    setTimeout(() => {
+      box.style.opacity = 0;
+      box.style.visibility = "hidden";
+    }, 3500);
+  }
+
+  // === Actual Firebase Password Reset ===
+  async function handleForgotEmailSubmit(event) {
+    event.preventDefault();
+    const emailInput = document.getElementById("forgot-email-input");
+    const button = document.getElementById("forgot-button");
+    const email = emailInput.value.trim();
+
+    if (!email) {
+      showMessage("Please enter a valid email address.", "error");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+
+    try {
+      await auth.sendPasswordResetEmail(email, {
+       
+      });
+      showMessage(
+        `A password reset email has been sent to ${email}. Please check your inbox.`,
+        "success"
+      );
+      emailInput.value = "";
+ // Redirect to login page after delay
+      setTimeout(() => {
+        window.location.href = "./login.html";
+      }, 5000);
+    } catch (error) {
+      console.error("Password Reset Error:", error);
+      let errorMsg = "Failed to send reset email.";
+      if (error.code === "auth/user-not-found") errorMsg = "No account found with that email.";
+      if (error.code === "auth/invalid-email") errorMsg = "Invalid email address.";
+      showMessage(errorMsg, "error");
+    } finally {
+      button.disabled = false;
+      button.textContent = "Send Reset Link";
+    }
+  }
+
+  // === Loader Animation ===
+  window.addEventListener("load", () => {
+    const spinner = document.getElementById("spinner");
+    const formCard = document.getElementById("authCard");
+    setTimeout(() => {
+      spinner.classList.add("hidden");
+      formCard.classList.add("show");
+    }, 1000);
+  });
+</script>
+
+
+</body>
+</html>

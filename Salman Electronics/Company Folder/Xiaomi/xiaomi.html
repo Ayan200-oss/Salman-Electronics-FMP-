@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xiaomi Products Listing Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="../../SE Logo/SE favicon image.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+      <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-database.js"></script>
+<style>
+
+/* =================================================================
+   PRELOADER SPINNER STYLES
+   ================================================================= */
+.spinner-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #F9FAFB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease-out, visibility 0.5s linear 0.5s;
+}
+
+.spinner-wrapper.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.spinner {
+    --size-of-spinner: 60px;
+    --spinner-border-width: 5px;
+    --spinner-color: #ff5e14;
+    --speed-of-animation: 3s;
+
+    width: var(--size-of-spinner);
+    height: var(--size-of-spinner);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    inset: 0;
+    border: var(--spinner-border-width) solid var(--spinner-color);
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: spinny var(--speed-of-animation) linear infinite;
+}
+
+.spinner-logo {
+    position: absolute;
+    z-index: 10;
+    transform: rotate(0deg);
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ff5e14;
+}
+
+@keyframes spinny {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+    /* =================================================================
+   HEADER AND NAVIGATION STYLES (qa- prefix)
+   ================================================================= */
+.qa-header {
+    height: 60px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.qa-logo {
+    max-width: 250px;
+    padding: 0 10px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.qa-logo a {
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.qa-nav {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    padding: 0 10px;
+}
+
+.qa-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+     gap: 10px;
+}
+
+.qa-nav__item a {
+    color: black;
+    font-size: 14px;
+    text-transform: uppercase;
+    display: block;
+    height: 60px;
+    line-height: 60px;
+    cursor: pointer;
+    padding: 0 10px;
+    font-family: 'Ubuntu', sans-serif;
+   
+}
+
+.qa-nav__item a:hover {
+    color: #ffffff;
+    background-color: #ff5e14;
+    border-radius: 15px;
+}
+
+.qa-nav__close,
+.qa-nav__toggle {
+    display: none; /* Hidden by default on desktop */
+}
+
+
+/* =================================================================
+  secondary HEADER AND NAVIGATION STYLES (qa- prefix)
+   ================================================================= */
+
+/* Set default font to Inter, as required */
+body {
+    /* Kept existing styles, but note body should not be redefined here if already done globally */
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+}
+
+/* Custom animation for the cart counter pulse (CSS kept) */
+@keyframes ping-once {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.animate-ping-once {
+    animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+#utility-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+    
+    /* ADDED FOR LAYOUT */
+    display: flex; 
+    justify-content: flex-end; /* Pushes content to the right */
+    align-items: center; /* Vertically centers items */
+    padding: 10px 20px; /* Add some padding to prevent cutting off on the edges */
+}
+
+.login-button {
+    background-color: white;
+    color: black;
+    /* Use fixed padding for content-based size */
+    padding: 8px 15px; 
+    width: auto; /* Allow button to size itself */
+    flex-shrink: 0; /* Prevents button from getting too small */
+    /* Add a small margin to separate it from other icons/buttons */
+    margin-right: 10px; 
+}
+
+.login-button:hover{
+    background-color: #ff5e14;
+    color: white;
+}
+
+.signup-button {
+    background-color: #ff5e14;
+    color: white;
+    /* Use fixed padding for content-based size */
+    padding: 8px 15px; 
+    width: auto; /* Allow button to size itself */
+    flex-shrink: 0; /* Prevents button from getting too small */
+    margin-left: 10px; /* Space from Login button */
+    /* Use padding on the utility bar instead of a huge margin-right */
+    margin-right: 0; 
+}
+
+.signup-button:hover{
+    background-color: white;
+    color: black;
+}
+
+.sweet-alert-top-zindex {
+    z-index: 100000 !important; 
+}
+
+
+@media (max-width: 768px) {
+  #utility-bar {
+    display: flex;
+    justify-content: space-around !important;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .cart-section {
+    order: 1; /* Cart on left */
+  }
+
+  .auth-buttons {
+    order: 2; /* Buttons on right */
+    display: flex;
+    gap: 8px;
+  }
+}
+
+/* 🎨 General Table Styling */
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 🛒 Responsive Cart Item Styling */
+.product-row {
+  position: relative; /* allow the X button to position inside */
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.product-img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-details-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  word-wrap: break-word;
+}
+
+.product-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.2;
+}
+
+.product-price-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #007bff;
+  white-space: nowrap;
+}
+
+.product-price {
+  font-size: 1.3em;
+  color: #007bff;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* ❌ Delete Button — always top-right of product card */
+.single-delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.single-delete-button:hover {
+  color: #ff5e14;
+  transform: scale(1.1);
+}
+
+.scroll-anim {
+  scrollbar-width: thin;
+  scrollbar-color: #ff5e14 #f1f1f1;
+  max-height: 600px;
+}
+
+/* 🧁 Force SweetAlert2 popup to appear above all UI layers */
+.swal2-container {
+  z-index: 999999 !important;
+}
+
+
+/* 📱 Responsive Layout Adjustments */
+@media only screen and (max-width: 768px) {
+  .product-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .product-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .single-delete-button {
+    top: 6px;
+    right: 6px;
+    font-size: 20px;
+  }
+
+    .qa-main-content__title { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  .product-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .product-details-container {
+    align-items: center;
+  }
+
+  .product-title {
+    font-size: 14px;
+  }
+
+  .product-price-label {
+    font-size: 14px;
+  }
+
+  .single-delete-button {
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+  }
+}
+
+/* =================================================================
+   MAIN SEARCH AND TYPING ANIMATION
+   ================================================================= */
+.qa-main-content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 10px;
+    padding-bottom: 70px;
+}
+
+.qa-main-content__title {
+    color: #ff5e14;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 26px;
+    margin-bottom: 10px;
+    /* Typewriter effect properties */
+    display: block;
+    width: 25ch;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid #ff5e14;
+
+    /* Animations */
+    animation:
+        typing 3s steps(25, end) 1s forwards,
+        blink-caret .75s step-end infinite 4s;
+}
+
+#qa-search-input {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 16px 12px 40px;
+    border: 3px solid #ff5e14;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    outline: 0;
+}
+
+/* List Item Container (li) */
+#qa-search-list li {
+    display: none; /* Controlled by JS */
+}
+
+/* List Item Link (a) - General style */
+/* This combines styles for all list items and ensures vertical centering for image items */
+#qa-search-list li a {
+    border: 1px solid #ddd; 
+    margin-top: 1px; 
+    background-color: #f6f6f6; 
+    padding: 5px 5px; /* Added back vertical padding, kept user's horizontal 5px padding */
+    font-size: 20px; 
+    color: black;
+    text-decoration: none;
+    
+    /* FIX: Layout for items with images: Use flexbox to center content */
+    display: flex; 
+    align-items: center; 
+    gap: 15px; /* Space between image and text */
+}
+
+/* Special class for items with product details wrapper (for two-line name/price display) */
+/* Removed empty .search-result-item ruleset for compatibility with CSS standards */
+
+
+/* List Item Link (a) - Hover effect */
+#qa-search-list li a:hover { /* Simplified the selector for consistency */
+    background-color: var(--accent-orange); 
+    color: white;
+    background-color: #ff5e14; 
+    font-weight: bold; 
+}
+
+/* Styling for the image within the search result */
+.product-img {
+    margin-top: 5px; 
+    width: 70px; 
+    height: 70px; 
+    object-fit: contain;
+    border-radius: 4px;
+    flex-shrink: 0; 
+    background-color: white;
+    padding: 5px;
+}
+
+/* TYPING ANIMATION KEYFRAMES */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #ff5e14; }
+}
+
+
+/* =================================================================
+   RESPONSIVENESS AND MEDIA QUERIES
+   ================================================================= */
+
+/* ---------------------------------
+   Mobile (Max-width 650px)
+   --------------------------------- */
+@media only screen and (max-width: 650px) {
+    /* Navigation Overhaul */
+    .qa-logo { max-width: 180px; }
+    .qa-nav { flex: 0; }
+
+    .qa-nav__list {
+        position: fixed;
+        left: 100%;
+        top: 0;
+        flex-direction: column;
+        background: #ffffff;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        transition: left .3s;
+        text-align: center;
+        z-index: 100;
+    }
+
+    .qa-nav__item a {
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        height: auto;
+        line-height: normal;
+        color: black;
+    }
+
+    /* FIX: Display Hamburger Icon */
+    .qa-nav__toggle {
+        display: flex;
+        padding: 18px 8px;
+        width: 50px;
+        height: 60px;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .qa-nav__toggle i {
+        background-color: #ff5e14;
+        height: 4px;
+        display: block;
+    }
+
+    /* FIX: Display Close Button */
+    .qa-nav__close {
+        display: block;
+        text-align: right;
+        padding: 10px;
+    }
+
+    .qa-nav__close span {
+        font-size: 40px;
+        border: 1px solid #cccccc;
+        padding: 0 10px;
+        line-height: 1;
+    }
+
+    .qa-nav__list--show { left: 0; }
+}
+
+
+@media (max-width: 575.98px) {
+       /* Whatsapp Button */
+    .whatsapp-float { right: 16px; bottom: 20px; }
+    .whatsapp-float img { width: 56px; height: 56px; }
+}
+
+</style>
+
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'se-orange': '#ff5e14', /* Your custom orange color */
+                        'se-green': '#28a745', /* Example green for discounts */
+                        'se-light-gray': '#f2f2f2', /* Light background for cards */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans min-h-screen bg-gray-100">
+
+ <!-- Spinner Code Start -->
+
+   <div class="spinner-wrapper" id="spinner">
+        <div class="spinner">
+            <div class="spinner-logo">SE</div>
+        </div>
+    </div>
+    <!-- Spinner Code Ends -->
+
+
+<!-- Navbar Code Start-->
+
+<div class="qa-header">
+    <div class="qa-logo">
+        <a href="../../index.html"><img src="../../SE Logo/SE NAVBAR LOGO.png" alt="logo"></a>
+    </div>
+    <div class="qa-nav">
+        <div class="qa-nav__toggle" onclick="Show()">
+            <i></i>
+            <i style="width: 25px;"></i>
+            <i></i>
+        </div>
+
+        <!-- ID changed to qa-nav-list-id -->
+        <ul id="qa-nav-list-id" class="qa-nav__list">
+            <li class="qa-nav__close"><span onclick="Hide()">×</span></li>
+            <li class="qa-nav__item"><a href="../../index.html">Home</a></li>
+            <li class="qa-nav__item"><a href="../../About/about.html">About</a></li>
+            <li style="background-color: #ff5e14; border-radius: 15px;" class="qa-nav__item"><a style="color: white;" href="Product Page/product.html">Products</a></li>
+            <li class="qa-nav__item"><a href="../../Contact/Contact.html">Contact</a></li>
+
+        </ul>
+    </div>
+</div>
+
+ <!-- Utility Code Start-->
+
+<div  class="second-nav text-gray-800 p-4">
+
+    <header id="utility-bar" class="bg-white shadow-xl rounded-xl p-4 md:p-6 border-b-4 border-t-4 border-se-orange ">
+        
+
+        <div class="flex flex-col md:flex-row items-center justify-end space-y-4 md:space-y-0 md:space-x-6">
+
+            <div class="flex items-center justify-between md:justify-end w-full md:w-auto space-x-6">
+                
+           
+                <div class="flex items-center space-x-6">
+                    
+
+                 
+                    <button id="cart-button" class="relative text-gray-600 hover:text-se-orange transition duration-150 focus:outline-none">
+    <i style="font-size: 24px;" class="fa-solid fa-cart-shopping"></i>
+    <span class="sr-only">View Cart</span>
+    <span class="counter absolute -top-2 -right-2 flex items-center justify-center 
+                                h-5 w-5 rounded-full bg-se-orange text-white text-xs font-bold 
+                                transition duration-300 transform scale-100">
+        0
+    </span>
+</button>
+                </div>
+                 
+               <div class="flex items-start space-x-4"> 
+    <a href="../../Form/login.html">
+        <button class="login-button py-3 px-1 rounded-lg text-gray-700 transition duration-150">
+            Log In
+        </button>
+    </a>
+    
+    <a href="../../Form/form.html">
+        <button class="signup-button py-3 px-1 rounded-lg transition duration-150 shadow-md">
+            Sign Up
+        </button>
+    </a>
+</div>
+
+            </div>
+
+        </div>
+    </header>
+
+    </div>
+
+<!-- Utility Code end-->
+
+
+<!-- Utility bar slider Code Start-->
+
+
+              <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99998] hidden" onclick="toggleCartSlider()"></div>
+
+<div id="cart-slider" class="fixed top-0 right-0 w-80 md:w-96 h-full bg-white shadow-2xl z-[99999] 
+                              transform translate-x-full transition-transform duration-300 ease-in-out">
+    
+    <div class="p-4 border-b flex justify-between items-center">
+        <h2  class="cart-counter text-xl font-semibold text-gray-800">Your Cart (0 Items)</h2>
+        <button onclick="toggleCartSlider()" class="text-gray-500 hover:text-gray-900 p-2 focus:outline-none">
+           <i style="font-size: 30px;" class="fa-solid fa-xmark"></i>
+            <span class="sr-only">Close Cart</span>
+        </button>
+    </div>
+
+    <div class="p-4 space-y-4 h-full overflow-y-auto pb-32">
+<div class="scroll-anim overflow-auto">
+    <table id="trow"></table>
+    </div>
+</div>
+    
+  <div class="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
+  <div class="flex justify-between font-bold text-lg mb-3">
+      <span>Subtotal:</span>
+      <span id="cart-subtotal">Rs 0.00</span>
+  </div>
+
+  <button id="checkout-button" onclick="handleCheckout()" 
+    class="w-full py-3 bg-orange-600 text-white font-bold rounded-lg transition duration-150">
+      Proceed to Checkout
+  </button>
+
+  <!-- Custom alert box -->
+  <div id="cart-alert" class="hidden text-center mt-3 text-red-600 font-semibold bg-red-100 border border-red-400 rounded-lg p-2">
+    Please add an item first!
+  </div>
+</div>
+
+
+</div>
+
+<!-- Utility bar slider code ends-->
+
+<br><br><br>
+
+<div class="qa-main-content">
+    <h1 class="qa-main-content__title">Search Your Desired Phone...</h2>
+    <!-- ID changed to qa-search-input -->
+    <input type="text" id="qa-search-input" onkeyup="myFunction()" title="Type in a name">
+
+     <!-- ID changed to qa-search-list -->
+     <ul id="qa-search-list">
+             <li><a href="../../product/s25ultra(12gb-1tb).html"> <img class="product-img" src="../../Product imges/samsung-galaxy-s25-ultra-pakista.png" alt="Samsung Galaxy S25 Ultra (12GB-1TB)"> Samsung Galaxy S25 Ultra (12GB-1TB)</a></li>
+             <li><a href="../../product/S25 FE.html"> <img class="product-img" src="../../Product imges/samsung-galaxy-s25-fe-pakistan-p.webp" alt="Samsung Galaxy S24 FE"> Samsung Galaxy S25 FE</a></li>
+             <li><a href="../../product/Technospark30pro.html"> <img class="product-img" src="../../Product imges/tecno-spark-30-pro-pakistan-pric.webp" alt="Tecno SPARK 30 Pro"> Tecno SPARK 30 Pro </a></li>
+             <li><a href="../../product/A365G.html"> <img class="product-img" src="../../Product imges/samsung-galaxy-a36-5g-pakistan-p.webp" alt="Samsung Galaxy A36 5G"> Samsung Galaxy A36 5G</a></li>
+             <li><a href="../../product/xiaomipococ75.html"> <img class="product-img" src="../../Product imges/Xiaomi-Poco-C75-128GB images.webp" alt="Xiaomi Poco C75"> Xiaomi Poco C75</a></li>
+             <li><a href="../../product/S25ultra.html"> <img class="product-img" src="../../Product imges/samsung-galaxy-s25-ultra-pakista.png" alt="Samsung Galaxy S25 Ultra"> Samsung Galaxy S25 Ultra</a></li>
+             <li><a href="../../product/HMDBarbie.html"> <img class="product-img" src="../../Product imges/hmd-barbie-pakistan-priceoye-yr1.webp" alt="HMD Barbie"> HMD Barbie</a></li>
+             <li><a href="../../product/Nothing Phone 3A.html"> <img class="product-img" src="../../Product imges/nothing-phone-3a-blue-pakistan-priceo.webp" alt="Nothing Phone 3A">Nothing Phone 3A</a></li>
+             <li><a href="../../product/Oppo A3x.html"> <img class="product-img" src="../../Product imges/oppo-a3x-ocean blue-pakistan-priceoye-r7zfx.webp" alt=">Oppo A3x">Oppo A3x</a></li>
+             <li><a href="../../product/Infinix Smart 10 Plus.html"> <img class="product-img" src="../../Product imges/infinix-smart-10-plus-Iris Blue-pakistan-p.webp" alt="Infinix Smart 10 Plus">Infinix Smart 10 Plus</a></li>
+             <li><a href="../../product/Nothing Phone 3A Pro.html"> <img class="product-img" src="../../Product imges/nothing-phone-3a-pro-black-pakistan-pr.webp" alt="Nothing Phone 3A Pro">Nothing Phone 3A Pro</a></li>
+             <li><a href="../../product/Infinix Hot 60 Pro Plus.html"> <img class="product-img" src="../../Product imges/infinix-hot-60-pro-plus-mistyVoilet-pakistan.webp" alt="Infinix Hot 60 Pro Plus">Infinix Hot 60 Pro Plus</a></li>
+             <li><a href="../../product/Iphone 17 Pro Max.html"> <img class="product-img" src="../../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp" alt="Iphone 17 Pro Max">Iphone 17 Pro Max</a></li>
+             <li><a href="../../product/Vivo Y29.html"> <img class="product-img" src="../../Product imges/vivo-y29-Noble Brown-pakistan-priceoye-2233y.webp" alt="Vivo Y29">Vivo Y29</a></li>
+             <li><a href="../../product/Apple Iphone 17 Pro.html"> <img class="product-img" src="../../Product imges/apple-17-pro-max-Cosmicorange-pakistan-priceo.webp" alt="Apple Iphone 17 Pro">Apple Iphone 17 Pro</a></li>
+             <li><a href="../../product/Vivo X Fold 5.html"> <img class="product-img" src="../../Product imges/vivo-x-fold-5-Titaniumgrey-pakistan-priceoye.webp" alt="Vivo X Fold 5">Vivo X Fold 5</a></li>
+         </ul>
+</div>
+
+<!-- Navbar code ends -->
+
+
+ <!-- Company Logos Code Start -->
+
+  <br><br>
+
+  <section class="py-12 md:py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-8 text-center sm:text-left">
+            Shop by favorite <span class="text-[#ff5e14]">Brands</span>
+        </h2>
+
+        <div class="relative group">
+            
+            <button id="scroll-left-btn" class="absolute left-0 top-1/2 transform -translate-y-1/2 -ml-2 sm:-ml-8 z-10 p-3 bg-white rounded-full shadow-lg border border-gray-200 opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#ff5e14]">
+                <i class="fas fa-chevron-left text-gray-700"></i>
+            </button>
+            <button id="scroll-right-btn" class="absolute right-0 top-1/2 transform -translate-y-1/2 -mr-2 sm:-mr-8 z-10 p-3 bg-white rounded-full shadow-lg border border-gray-200 opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#ff5e14]">
+                <i class="fas fa-chevron-right text-gray-700"></i>
+            </button>
+            
+            <div id="brands-container" class="flex overflow-x-scroll scroll-smooth hide-scrollbar space-x-8 sm:space-x-6 lg:space-x-8 pb-4 px-2">
+                <a href="../../Company Folder/Samsung/Samsung.html"  class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img src="../../Company Logo/Samsung_wordmark.png" alt="Samsung" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+  
+                </a>
+
+                <a href="../../Company Folder/Xiaomi/xiaomi.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img style="border-bottom: 5px solid black;" src="../../Company Logo/2048px-Xiaomi_logo.svg.png" alt="Xiaomi" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+    
+                </a>
+                 <a href="../../Company Folder/Nothing/Nothing.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img src="../../Company Logo/Nothing-Phone-Logo-Webp.webp" alt="Nothing" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+        
+                </a>
+                 <a href="../../Company Folder/vivo/vivo.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img  src="../../Company Logo/vivo-65933016.png" alt="Vivo" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+      
+                </a>
+                
+                 <a href="../../Company Folder/Techno/techno.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img src="../../Company Logo/tecno-900616352.png" alt="Techno" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+  
+                </a>
+               
+                 <a  href="../../Company Folder/Oppo/oppo.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img src="../../Company Logo/oppo com logo.png" alt="oppo" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+      
+                </a>
+               
+                 <a href="../Apple/apple.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img src="../../Company Logo/apple-856667078.png" alt="Apple" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+      
+                </a>
+             
+            
+                <a href="../../Company Folder/Realme/realme.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4 rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img src="../../Company Logo/realme com logo.png" alt="realme" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+      
+                </a>
+                <a href="../../Company Folder/Infinix/infinix.html" class="brand-card flex-shrink-0 w-[120px] sm:w-[150px] md:w-[180px] h-32 flex flex-col items-center justify-center p-4  rounded-xl shadow-sm hover:border-[#ff5e14] hover:shadow-lg transition-all duration-300 group/item">
+                    <img src="../../Company Logo/infinix com logo.png" alt="infinix" class="h-8 max-w-full object-contain mb-2 group-hover/item:scale-105 transition-transform duration-300">
+    
+                </a>
+               
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- carousel Code Start -->
+
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../../Frontend images/xiaomi poco c75 black banner.webp" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="../../Frontend images/xiaomi poco c75 green banner.webp" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="../../Frontend images/xiaomi poco c75 Gold banner.webp" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" style="background-color: #ff5e14; border-radius: 50px; font-size: 44px;" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+    <span class="carousel-control-next-icon" style="background-color: #ff5e14; border-radius: 50px; font-size: 44px;" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+  <!-- carousel Code Ends -->
+
+  <br><br><br>
+
+ <main class="container mx-auto px-4 py-8">
+ <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Xiaomi products</h1>
+  
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        
+          <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col justify-between">
+            <a href="../../product/xiaomipococ75.html" class="block">
+                <div class="h-48 flex items-center justify-center p-4 bg-gray-50">
+                    <img src="../../Product imges/Xiaomi-Poco-C75-128GB images.webp" alt="Xiaomi Poco C75" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-1">Xiaomi Poco C75</h3>
+                    
+                    <div class="flex items-center text-sm text-gray-600 mb-2">
+                        <i class="fas fa-star text-yellow-400 mr-1"></i>
+                        <span>4.9 (19 Reviews)</span>
+                    </div>
+
+                    <div class="flex items-baseline mb-2">
+                        <span class="text-xl font-bold text-gray-900 mr-2">Rs  29,899</span>
+                        <span class="text-sm text-gray-500 line-through">Rs  36,999</span>
+                    </div>
+                    <span class="inline-block bg-se-green/10 text-se-green text-xs font-semibold px-2.5 py-0.5 rounded-full">19% OFF</span>
+                </div>
+            </a>
+        </div>
+
+        </div>
+        </main>
+
+    <script>
+    // Updated ID reference
+    var navList = document.getElementById("qa-nav-list-id");
+    function Show() {
+        navList.classList.add("qa-nav__list--show");
+    }
+    function Hide(){
+        navList.classList.remove("qa-nav__list--show");
+    }
+</script>
+
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i;
+        // Updated ID reference
+        input = document.getElementById("qa-search-input"); 
+        filter = input.value.toUpperCase();
+        // Updated ID reference
+        ul = document.getElementById("qa-search-list"); 
+        li = ul.getElementsByTagName("li");
+
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (filter !== "" && a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "block"; // Show match
+            } else {
+                li[i].style.display = "none"; // Hide non-match/empty search
+            }
+        }
+    }
+</script>
+
+<script>
+   // --- INPUT PLACEHOLDER TYPING ANIMATION ---
+    const searchInput = document.getElementById('qa-search-input');
+    const fullPlaceholder = "Search for iPhone, Samsung, Xiaomi, etc..."; // The full text to type
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 100; // Speed in milliseconds
+    const pauseDuration = 1000; // Pause at the end before repeating
+
+    function typePlaceholder() {
+        // Determine the current text to display
+        const currentText = fullPlaceholder.substring(0, charIndex);
+        searchInput.setAttribute('placeholder', currentText);
+
+        if (!isDeleting) {
+            // Typing forward
+            if (charIndex < fullPlaceholder.length) {
+                charIndex++;
+                setTimeout(typePlaceholder, typingSpeed / 2);
+            } else {
+                // Done typing, start pause
+                isDeleting = true;
+                setTimeout(typePlaceholder, pauseDuration);
+            }
+        } else {
+            // Deleting backward
+            if (charIndex > 0) {
+                charIndex--;
+                setTimeout(typePlaceholder, typingSpeed / 2); // Faster deletion
+            } else {
+                // Done deleting, start typing again
+                isDeleting = false;
+                setTimeout(typePlaceholder, 500); // Short pause before re-typing
+            }
+        }
+    }
+
+    // Start the animation when the page loads
+    if (searchInput) {
+        typePlaceholder();
+    }
+
+
+
+    // =================================================================
+// 1. SPINNER, MODAL, and HERO TEXT ANIMATION
+// =================================================================
+
+// --- Constants ---
+const MINIMUM_LOADER_DISPLAY_TIME = 2000; // 2 seconds minimum for the loader
+const MODAL_DELAY_AFTER_LOADER = 1000;   // 1 second delay AFTER the loader is hidden
+const startTime = Date.now();
+
+window.addEventListener("load", () => {
+    const spinnerWrapper = document.getElementById("spinner");
+    const welcomeModalElement = document.getElementById('welcomeModal');
+    // Ensure this class is applied to your main hero slogan container (e.g., slogan-container)
+    const sloganContent = document.querySelector('.slogan-container'); 
+    
+    // 1. Loader Logic
+    const elapsedTime = Date.now() - startTime;
+    const loaderRemainingTime = MINIMUM_LOADER_DISPLAY_TIME - elapsedTime;
+    
+    setTimeout(() => {
+        if (spinnerWrapper) {
+            spinnerWrapper.classList.add("hidden");
+        }
+
+        // 2. Modal Logic (Unchanged)
+        setTimeout(() => {
+            if (welcomeModalElement && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                const welcomeModal = new bootstrap.Modal(welcomeModalElement);
+                welcomeModal.show();
+            }
+        }, MODAL_DELAY_AFTER_LOADER); 
+
+    }, Math.max(0, loaderRemainingTime)); 
+});
+</script>
+
+<script>
+ // Add to cart code start
+
+// --- Configuration & Initialization ---
+    const CART_STORAGE_KEY = 'cartItemCount';
+    
+    // CRITICAL: Load the current cart count from Local Storage
+    let cartItemCount = parseInt(localStorage.getItem(CART_STORAGE_KEY) || '0', 10);
+
+    // --- Element Getters ---
+    const cartButton = document.getElementById('cart-button');
+    const cartSlider = document.getElementById('cart-slider');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const checkoutButton = document.getElementById('checkout-button'); // The new element
+
+    
+    // --- Slider Toggling Function (Your original code) ---
+    function toggleCartSlider() {
+        if (!cartSlider || !cartOverlay) return; 
+
+        const isHidden = cartSlider.classList.contains('translate-x-full');
+
+        if (isHidden) {
+            cartSlider.classList.remove('translate-x-full');
+            cartOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            cartSlider.classList.add('translate-x-full');
+            cartOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+
+
+
+    // --- Checkout Logic (The function you need) ---
+    /**
+     * Checks cart count and either alerts or navigates.
+     */
+   function handleCheckout(event) {
+    event.preventDefault(); 
+    
+    // Ensure the cartItemCount is loaded (assuming your previous script is running)
+    var counter = document.getElementById("counter").innerText;
+
+    if (counter === 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...can't proceed to checkout",
+            text: "Please add an item to your cart before proceeding to checkout",
+            
+            // *** FIX: ADD THIS CUSTOM CLASS PROPERTY ***
+            customClass: {
+                // Ensure the SweetAlert container has a Z-index higher than your cart slider (99999)
+                container: 'sweet-alert-top-zindex' 
+            }
+        });
+    } else {
+        window.location.href = '../../cheak.html'; 
+    }
+}
+
+    // --- Event Listeners ---
+    
+    // 1. Open/Close Slider
+    if (cartButton) {
+        cartButton.addEventListener('click', toggleCartSlider);
+    }
+
+    // 2. Checkout Logic
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', handleCheckout);
+    }
+    
+    // 3. Optional: Close on Escape Key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && cartSlider && !cartSlider.classList.contains('translate-x-full')) {
+            toggleCartSlider();
+        }
+    });
+    </script>
+
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+      <script>
+      lucide.createIcons();
+    </script>
+
+    <script src="../../ATC.js"></script>
+ 
+    
+    </body>
+</html>
